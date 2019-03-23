@@ -15,9 +15,9 @@
                         <input type="text" name="account" id="account">
                     </div>
 
-                        <span class="js-block text-danger" style="display: none;" id="accountError">
-                            <strong class="accountError"></strong>
-                        </span>
+                    <span class="js-block text-danger" style="display: none;" id="accountError">
+                        <strong class="accountError"></strong>
+                    </span>
                     @if ($errors->has('account'))
                         <span class="help-block text-danger">
                             <strong>{{ $errors->first('account') }}</strong>
@@ -34,9 +34,9 @@
                         <input type="text" name="email" id="email">
                     </div>
 
-                        <span class="help-block text-danger" style="display: none;" id="emailError">
-                            <strong class="emailError"></strong>
-                        </span>
+                    <span class="help-block text-danger" style="display: none;" id="emailError">
+                        <strong class="emailError"></strong>
+                    </span>
                     @if ($errors->has('email'))
                         <span class="help-block text-danger">
                             <strong class="emailError">{{ $errors->first('email') }}</strong>
@@ -53,9 +53,9 @@
                         <input type="password" name="pass" id="pass">
                     </div>
 
-                        <span class="help-block text-danger" style="display: none:" id="passError">
-                            <strong class="passError"></strong>
-                        </span>
+                    <span class="help-block text-danger" style="display: none:" id="passError">
+                        <strong class="passError"></strong>
+                    </span>
                     @if ($errors->has('pass'))
                         <span class="help-block text-danger">
                             <strong>{{ $errors->first('pass') }}</strong>
@@ -84,9 +84,9 @@
                         </select>
                     </div>
 
-                        <span class="help-block text-danger" style="display: none;" id="countryError">
-                            <strong class="countryError"></strong>
-                        </span>
+                    <span class="help-block text-danger" style="display: none;" id="countryError">
+                        <strong class="countryError"></strong>
+                    </span>
                     @if ($errors->has('country'))
                         <span class="help-block text-danger">
                             <strong>{{ $errors->first('country') }}</strong>
@@ -114,9 +114,9 @@
                         </select>
 
                         
-                            <span class="help-block text-danger" style="display: none;" id="secretQuestionError">
-                                <strong class="secretQuestionError"></strong>
-                            </span>
+                        <span class="help-block text-danger" style="display: none;" id="secretQuestionError">
+                            <strong class="secretQuestionError"></strong>
+                        </span>
                         
                         @if ($errors->has('secretQuestion'))
                             <span class="help-block text-danger">
@@ -128,10 +128,9 @@
                             <input type="text" name="answerSecret" id="answerSecret" placeholder="Respuesta secreta">
                         </div>
 
-                            <span class="help-block text-danger" style="display: none;" id="answerSecretError">
-                                <strong class="answerScret"></strong>
-                            </span>
-                        
+                        <span class="help-block text-danger" style="display: none;" id="answerSecretError">
+                            <strong class="answerScret"></strong>
+                        </span>
                         @if ($errors->has('answerSecret'))
                             <span class="help-block text-danger">
                                 <strong>{{ $errors->first('answerSecret') }}</strong>

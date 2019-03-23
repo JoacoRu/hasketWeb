@@ -1,17 +1,17 @@
 window.onload = function () {
     function registerInsertAndValidate() {
         let formRegister = document.querySelector('#formRegister');
-        let username = document.querySelector('input[name="account"]').value;
-        let email = document.querySelector('input[name="email"]').value;
-        let pass = document.querySelector('input[name="pass"]').value;
-        let repass = document.querySelector('input[name="password_confirmation"]').value;
-        let country = document.querySelector('select[name="country"]').value;
-        let secretQuestion = document.querySelector('select[name="secretQuestion"]').value;
+        let username = document.querySelector('input[name="account"]');
+        let email = document.querySelector('input[name="email"]');
+        let pass = document.querySelector('input[name="pass"]');
+        let repass = document.querySelector('input[name="password_confirmation"]');
+        let country = document.querySelector('select[name="country"]');
+        let secretQuestion = document.querySelector('select[name="secretQuestion"]');
         let secretAnswer = document.querySelector('input[name="answerSecret"]');
         var errors = {};
         
         formRegister.addEventListener('submit', function(e) {
-            if(isAEmptyString(username)) {
+            if(isAEmptyString(username.value)) {
                 errors.username = 'El campo es obligatorio';
                 showMessagesError(errors);            
                 e.preventDefault();
@@ -19,23 +19,27 @@ window.onload = function () {
                 errors.username = 'El nombre de usuario excede el limite de caracteres permitido';
                 showMessagesError(errors);
                 e.preventDefault();
-            } else if (typeof username != String) {
+            } else if (typeof username.value != "string") {
                 errors.username = 'El nombre de usuario debe ser una cadena de texto';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else {
+                errors.username = '';
             }
-            
-            if(isValidEmail(email)) {
-                errors.email = 'Por favor ingresa un email con formato valido';
-                showMessagesError(errors);
-                e.preventDefault();
-            } else if(email == '') {
+
+            if(email.value == '') {
                 errors.email = 'El campo es obligatorio';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else if(isValidEmail(email.value) == false) {
+                errors.email = 'Por favor ingresa un email con formato valido';
+                showMessagesError(errors);
+                e.preventDefault();
+            } else {
+                errors.email = '';
             }
 
-            if(isAEmptyString(pass)) {
+            if(isAEmptyString(pass.value) || isAEmptyString(repass.value) ) {
                 errors.pass = 'El campo es obligatorio';
                 showMessagesError(errors);
                 e.preventDefault();
@@ -43,31 +47,36 @@ window.onload = function () {
                 errors.pass = 'La contraseña es demasiado corta';
                 showMessagesError(errors);
                 e.preventDefault();
-            } else if (pass === repass) {
+            } else if (pass.value !== repass.value) {
                 errors.pass = 'Las contraseñas  no coinciden';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else {
+                errors.pass = '';
             }
 
-            if(country == 'default') {
+            if(country.value == 'default') {
                 errors.country = 'Por favor elije un pais';
                 showMessagesError(errors);
                 e.preventDefault();
             }
 
-            if(secretQuestion == 'default') {
+            if(secretQuestion.value == 'default') {
                 errors.question = 'Por Favor elije una pregunta secreta';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else {
+                errors.question = '';
             }
 
-            if(isAEmptyString(secretAnswer)) {
+            if(isAEmptyString(secretAnswer.value)) {
                 errors.secretAnswer = 'El campo es obligatorio';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else {
+                errors.secretAnswer = '';
             }
             console.log(errors);
-            console.log(pass.value)
         });
     }
 
@@ -85,7 +94,7 @@ window.onload = function () {
         let blockAnswer = document.querySelector('#answerSecretError');
         let blockPass = document.querySelector('#passError');
 
-        if(errors.username) {
+        if(errors.username != '') {
             blockAccount.style.display = 'block';
             errorAccount.innerHTML = errors.username;
         } else {
@@ -93,7 +102,7 @@ window.onload = function () {
             errorAccount.innerHTML = '';
         }
 
-        if(errors.email) {
+        if(errors.email != '') {
             blockEmail.style.display = 'block';
             errorEmail.innerHTML = errors.email;
         } else {
@@ -101,7 +110,7 @@ window.onload = function () {
             errorEmail.innerHTML = 'none';
         }
 
-        if(errors.pass) {
+        if(errors.pass != '') {
             blockPass.style.display = 'block';
             errorPass.innerHTML = errors.pass;
         } else {
@@ -109,7 +118,7 @@ window.onload = function () {
             errorPass.innerHTML = '';
         }
 
-        if(errors.country) {
+        if(errors.country != '') {
             blockCountry.style.display = 'block';
             errorCountry.innerHTML = errors.country;
         } else {
@@ -117,20 +126,22 @@ window.onload = function () {
             errorCountry.innerHTML = '';
         }
 
-        if(errors.question) {
+        if(errors.question != '') {
             blockQuestion.style.display = 'block';
             errorSecretQuestion.innerHTML = errors.question;
-        } else {
+        } else if (errors.question == "") {
             blockQuestion.style.display = 'none';
             errorSecretQuestion.innerHTML = '';
+            console.log('entro en pre')
         }
 
-        if(errors.secretAnswer) {
+        if(errors.secretAnswer != '') {
             blockAnswer.style.display = 'block';
             errorSecretAnswer.innerHTML = errors.secretAnswer;
-        } else {
+        } else if (errors.secretAnswer == ""){
             blockAnswer.style.display = 'none';
             errorSecretAnswer.innerHTML = '';
+            console.log('entro en resp')
         }
     }
 
@@ -148,7 +159,7 @@ window.onload = function () {
 
     function isValidEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
+        return re.test((email).toLowerCase());
     }
 
     registerInsertAndValidate();
