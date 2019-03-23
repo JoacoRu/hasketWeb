@@ -24,7 +24,7 @@ window.onload = function () {
                 showMessagesError(errors);
                 e.preventDefault();
             } else {
-                errors.username = '';
+                delete errors;
             }
 
             if(email.value == '') {
@@ -36,7 +36,7 @@ window.onload = function () {
                 showMessagesError(errors);
                 e.preventDefault();
             } else {
-                errors.email = '';
+                delete errors.email;
             }
 
             if(isAEmptyString(pass.value) || isAEmptyString(repass.value) ) {
@@ -52,7 +52,7 @@ window.onload = function () {
                 showMessagesError(errors);
                 e.preventDefault();
             } else {
-                errors.pass = '';
+                delete errors.pass;
             }
 
             if(country.value == 'default') {
@@ -66,7 +66,7 @@ window.onload = function () {
                 showMessagesError(errors);
                 e.preventDefault();
             } else {
-                errors.question = '';
+                delete errors.question;
             }
 
             if(isAEmptyString(secretAnswer.value)) {
@@ -74,7 +74,7 @@ window.onload = function () {
                 showMessagesError(errors);
                 e.preventDefault();
             } else {
-                errors.secretAnswer = '';
+               delete errors.secretAnswer;
             }
             console.log(errors);
         });
@@ -94,54 +94,55 @@ window.onload = function () {
         let blockAnswer = document.querySelector('#answerSecretError');
         let blockPass = document.querySelector('#passError');
 
-        if(errors.username != '') {
-            blockAccount.style.display = 'block';
-            errorAccount.innerHTML = errors.username;
-        } else {
-            blockAccount.style.display = 'none';
-            errorAccount.innerHTML = '';
-        }
+        if(errors.length != 0) {
 
-        if(errors.email != '') {
-            blockEmail.style.display = 'block';
-            errorEmail.innerHTML = errors.email;
-        } else {
-            blockEmail.style.display = 'none';
-            errorEmail.innerHTML = 'none';
-        }
-
-        if(errors.pass != '') {
-            blockPass.style.display = 'block';
-            errorPass.innerHTML = errors.pass;
-        } else {
-            blockPass.style.display = 'none';
-            errorPass.innerHTML = '';
-        }
-
-        if(errors.country != '') {
-            blockCountry.style.display = 'block';
-            errorCountry.innerHTML = errors.country;
-        } else {
-            blockCountry.style.display = 'none';
-            errorCountry.innerHTML = '';
-        }
-
-        if(errors.question != '') {
-            blockQuestion.style.display = 'block';
-            errorSecretQuestion.innerHTML = errors.question;
-        } else if (errors.question == "") {
-            blockQuestion.style.display = 'none';
-            errorSecretQuestion.innerHTML = '';
-            console.log('entro en pre')
-        }
-
-        if(errors.secretAnswer != '') {
-            blockAnswer.style.display = 'block';
-            errorSecretAnswer.innerHTML = errors.secretAnswer;
-        } else if (errors.secretAnswer == ""){
-            blockAnswer.style.display = 'none';
-            errorSecretAnswer.innerHTML = '';
-            console.log('entro en resp')
+            if(errors.username) {
+                blockAccount.style.display = 'block';
+                errorAccount.innerHTML = errors.username;
+            } else {
+                blockAccount.style.display = 'none';
+                errorAccount.innerHTML = '';
+            }
+    
+            if(errors.email) {
+                blockEmail.style.display = 'block';
+                errorEmail.innerHTML = errors.email;
+            } else {
+                blockEmail.style.display = 'none';
+                errorEmail.innerHTML = 'none';
+            }
+    
+            if(errors.pass) {
+                blockPass.style.display = 'block';
+                errorPass.innerHTML = errors.pass;
+            } else {
+                blockPass.style.display = 'none';
+                errorPass.innerHTML = '';
+            }
+    
+            if(errors.country) {
+                blockCountry.style.display = 'block';
+                errorCountry.innerHTML = errors.country;
+            } else {
+                blockCountry.style.display = 'none';
+                errorCountry.innerHTML = '';
+            }
+    
+            if(errors.question) {
+                blockQuestion.style.display = 'block';
+                errorSecretQuestion.innerHTML = errors.question;
+            } else if (errors.question == "") {
+                blockQuestion.style.display = 'none';
+                errorSecretQuestion.innerHTML = '';
+            }
+    
+            if(errors.secretAnswer) {
+                blockAnswer.style.display = 'block';
+                errorSecretAnswer.innerHTML = errors.secretAnswer;
+            } else if (errors.secretAnswer == ""){
+                blockAnswer.style.display = 'none';
+                errorSecretAnswer.innerHTML = '';
+            }
         }
     }
 
@@ -162,5 +163,23 @@ window.onload = function () {
         return re.test((email).toLowerCase());
     }
 
+    function bringAndInserCountries() {
+        let countrySelect = document.querySelector('#country');
+        fetch('/api/countries')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(countries) {
+            for (const i in countries) {
+                if (countries.hasOwnProperty(i)) {
+                    const element = countries[i];
+                    const html = `<option value="${element.id}">${element.country_name}</option>`;
+                    countrySelect.innerHTML += html;
+                }
+            }
+        });
+    }
+
     registerInsertAndValidate();
+    bringAndInserCountries();
 }
