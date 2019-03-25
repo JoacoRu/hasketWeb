@@ -18,4 +18,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 Route::get('/countries', 'ApiController@bringCountries');
 Route::get('/username/{username}', 'ApiController@validUsername');
-Route::get('/email/{email}', 'ApiController@validUsername');
+Route::get('/email/{email}', 'ApiController@validEmail');

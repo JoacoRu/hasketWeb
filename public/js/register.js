@@ -1,4 +1,9 @@
 window.onload = function () {
+    let username = document.querySelector('input[name="account"]');
+    let email = document.querySelector('input[name="email"]');
+    username.value = 'user';
+    email.value = 'email';   
+
     function registerInsertAndValidate() {
         let formRegister = document.querySelector('#formRegister');
         let username = document.querySelector('input[name="account"]');
@@ -9,13 +14,8 @@ window.onload = function () {
         let secretQuestion = document.querySelector('select[name="secretQuestion"]');
         let secretAnswer = document.querySelector('input[name="answerSecret"]');
         var errors = {};
-        
+    
         formRegister.addEventListener('submit', function(e) {
-            validUsername(username.value);
-            validEmail(email.value);
-
-            let localUsername = window.localStorage.getItem('username');
-            let localEmail = window.localStorage.getItem('email');
             if(isAEmptyString(username.value)) {
                 errors.username = 'El campo es obligatorio';
                 showMessagesError(errors);            
@@ -28,8 +28,7 @@ window.onload = function () {
                 errors.username = 'El nombre de usuario debe ser una cadena de texto';
                 showMessagesError(errors);
                 e.preventDefault();
-            }  else {
-                window.localStorage.removeItem('username');
+            } else {
                 delete errors.username;
             }
 
@@ -41,12 +40,7 @@ window.onload = function () {
                 errors.email = 'Por favor ingresa un email con formato valido';
                 showMessagesError(errors);
                 e.preventDefault();
-            } else if (localEmail == 0) {
-                errors.email = 'El email no esta disponible';
-                showMessagesError(errors);
-                e.preventDefault();
             } else {
-                window.localStorage.removeItem('email');
                 delete errors.email;
             }
 
@@ -88,17 +82,8 @@ window.onload = function () {
                delete errors.secretAnswer;
             }
 
-            if (localUsername == 0) {
-                errors.username = 'El nombre de usuario no esta disponible';
-                showMessagesError(errors);
-                console.log(validUsername(username.value))
-                console.log(localUsername);
-                e.preventDefault();
-            } else {
-                window.localStorage.removeItem('username');
-                delete errors.username;
-            }
-            console.log(errors);
+            sendDataToMsql();
+            
         });
     }
 
@@ -116,11 +101,14 @@ window.onload = function () {
         let blockAnswer = document.querySelector('#answerSecretError');
         let blockPass = document.querySelector('#passError');
 
+        let usernameInput = document.querySelector('input[name="account"]');
+
         if(errors.length != 0) {
 
             if(errors.username) {
                 blockAccount.style.display = 'block';
                 errorAccount.innerHTML = errors.username;
+                usernameInput.value = errors.userValue;
             } else {
                 blockAccount.style.display = 'none';
                 errorAccount.innerHTML = '';
@@ -202,44 +190,85 @@ window.onload = function () {
         });
     }
 
-    function validUsername(user) {
-        var url = `/api/username/${user}`;
-        fetch(url)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(res) {
-            let answer;
-            if(res == 1) {
-                answer = 1;
-            } else {
-                answer = 0;
-            }
+    async function validUsername(user) {
+        let answer;
+        const response = await fetch(`/api/username/${user}`);
+        const json = await response.json();
 
-            window.localStorage.setItem('username', answer);
-        });
-        
+        if(json == 1) {
+            answer = 1;
+        } else {
+            answer = 0;
+        }
+
+        return answer;
     }
 
-    function validEmail(email) {
-        var url = `/api/email/${email}`;
-        fetch(url)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(res) {
-            let answer;
-            if(res == 1) {
-                answer = false;
-            } else {
-                answer = true;
-            }
+    async function validEmail(email) {
+        let answer;
+        const response = await fetch(`/api/email/${email}`);
+        const json = await response.json();
+            
+        if(json == 1) {
+            answer = 1;
+        } else {
+            answer = 0;
+        }
 
-            window.localStorage.setItem('username', answer);
-        });
-        
+        return answer;
     }
 
+    function formValidationForm() {
+        let username = document.querySelector('input[name="account"]');
+        let email = document.querySelector('input[name="email"]');
+        let obj = {};
+        username.addEventListener('change', function() {
+            userValidation();
+            username.addEventListener('change', userValidation());
+        });
+
+        async function userValidation(){
+            let usernameValid = await validUsername(username.value);
+            if(usernameValid == 0) {
+                obj.username = `El nombre ya esta en uso`;
+                showMessagesError(obj);
+            } else {
+                delete obj.username;
+                showMessagesError(obj);
+            }
+        }
+
+        email.addEventListener('change', function(){
+            emailValidation();
+            email.addEventListener('change', emailValidation())
+        });
+
+        async function emailValidation() {
+            let emailValid = await validEmail(email.value);
+            if(emailValid == 0) {
+                obj.email = `El email ${email.value}, ya esta en uso`;
+                showMessagesError(obj);
+            } else {
+                delete obj.email;
+                showMessagesError(obj);
+            }
+        }
+    }
+
+    function sendDataToMsql() {
+        let blockAccount = document.querySelector('#accountError');
+        let blockEmail = document.querySelector('#emailError');
+        let blockCountry = document.querySelector('#countryError');
+        let blockQuestion = document.querySelector('#secretQuestionError');
+        let blockAnswer = document.querySelector('#answerSecretError');
+        let blockPass = document.querySelector('#passError');
+
+        if(blockAccount.style.display == 'none' && blockEmail.style.display == 'none' && blockCountry.style.display == 'none' && blockQuestion.style.display == 'none' && blockAnswer.style.display == 'none' && blockPass.style.display == 'none') {
+            console.log('inserto datos');
+        }
+    }
+
+    formValidationForm();
     registerInsertAndValidate();
     bringAndInserCountries();
 }

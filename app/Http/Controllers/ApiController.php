@@ -19,9 +19,9 @@ class ApiController extends Controller
     public function validUsername(Request $request)
     {
         $answer;
-        $user = User::select('account')->
-                      where('account', $request->username)
-                      ->get();
+        $user = User::select('account')
+                    ->where('account', $request->username)
+                    ->get();
 
         if(count($user) == 0) {
             $answer = 1;
@@ -35,10 +35,10 @@ class ApiController extends Controller
     public function validEmail(Request $request)
     {
         $answer;
-        $user = User::select('email')->
-                      where('email', $request->email)
-                      ->get();
-
+        $user = User::select('email')
+                    ->where('email', $request->email)
+                    ->get();
+                    
         if(count($user) == 0) {
             $answer = 1;
         } else {
