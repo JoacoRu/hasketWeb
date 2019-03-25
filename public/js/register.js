@@ -11,6 +11,11 @@ window.onload = function () {
         var errors = {};
         
         formRegister.addEventListener('submit', function(e) {
+            validUsername(username.value);
+            validEmail(email.value);
+
+            let localUsername = window.localStorage.getItem('username');
+            let localEmail = window.localStorage.getItem('email');
             if(isAEmptyString(username.value)) {
                 errors.username = 'El campo es obligatorio';
                 showMessagesError(errors);            
@@ -23,8 +28,9 @@ window.onload = function () {
                 errors.username = 'El nombre de usuario debe ser una cadena de texto';
                 showMessagesError(errors);
                 e.preventDefault();
-            } else {
-                delete errors;
+            }  else {
+                window.localStorage.removeItem('username');
+                delete errors.username;
             }
 
             if(email.value == '') {
@@ -35,7 +41,12 @@ window.onload = function () {
                 errors.email = 'Por favor ingresa un email con formato valido';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else if (localEmail == 0) {
+                errors.email = 'El email no esta disponible';
+                showMessagesError(errors);
+                e.preventDefault();
             } else {
+                window.localStorage.removeItem('email');
                 delete errors.email;
             }
 
@@ -75,6 +86,17 @@ window.onload = function () {
                 e.preventDefault();
             } else {
                delete errors.secretAnswer;
+            }
+
+            if (localUsername == 0) {
+                errors.username = 'El nombre de usuario no esta disponible';
+                showMessagesError(errors);
+                console.log(validUsername(username.value))
+                console.log(localUsername);
+                e.preventDefault();
+            } else {
+                window.localStorage.removeItem('username');
+                delete errors.username;
             }
             console.log(errors);
         });
@@ -178,6 +200,44 @@ window.onload = function () {
                 }
             }
         });
+    }
+
+    function validUsername(user) {
+        var url = `/api/username/${user}`;
+        fetch(url)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(res) {
+            let answer;
+            if(res == 1) {
+                answer = 1;
+            } else {
+                answer = 0;
+            }
+
+            window.localStorage.setItem('username', answer);
+        });
+        
+    }
+
+    function validEmail(email) {
+        var url = `/api/email/${email}`;
+        fetch(url)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(res) {
+            let answer;
+            if(res == 1) {
+                answer = false;
+            } else {
+                answer = true;
+            }
+
+            window.localStorage.setItem('username', answer);
+        });
+        
     }
 
     registerInsertAndValidate();
