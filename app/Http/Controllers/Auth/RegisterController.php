@@ -48,17 +48,17 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'account' => 'required|max:255|string|unique:users',
+            'username' => 'required|max:255|string|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'pass' => 'required|min:6',
             'country' => 'required',
             'secretQuestion' => 'required',
             'answerSecret' => 'required',
         ],[
-            'account.required' => 'El campo es obligatorio',
-            'account.max' => 'El nombre de usuario excede el maximo de caracteres permitidos',
-            'account.string' => 'El nombre de usuario debe ser una cadena de texto',
-            'account.unique' => 'El nombre de usuario ya existe, por favor elije otro!',
+            'username.required' => 'El campo es obligatorio',
+            'username.max' => 'El nombre de usuario excede el maximo de caracteres permitidos',
+            'username.string' => 'El nombre de usuario debe ser una cadena de texto',
+            'username.unique' => 'El nombre de usuario ya existe, por favor elije otro!',
             'email.required' => 'El campo es obligatorio',
             'email.email' => 'Debes ingresar un email con un formato valido',
             'email.max' => 'El email ingresado excede el maximo de caracteres permitidos',
@@ -81,9 +81,9 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'account' => $data['account'],
+            'username' => $data['username'],
             'email' => $data['email'],
-            'pass' => bcrypt($data['pass']),
+            'password' => bcrypt($data['pass']),
             'country' => $data['country'],
             'secretQuestion' => $data['secretQuestion'],
             'answerQuestion' => $data['answerSecret'],

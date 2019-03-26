@@ -12,15 +12,15 @@
                     </div>
 
                     <div class="inputLogin">
-                        <input type="text" name="account" id="account">
+                        <input type="text" name="username" id="username">
                     </div>
 
                     <span class="js-block text-danger" style="display: none;" id="accountError">
                         <strong class="accountError"></strong>
                     </span>
-                    @if ($errors->has('account'))
+                    @if ($errors->has('username'))
                         <span class="help-block text-danger">
-                            <strong>{{ $errors->first('account') }}</strong>
+                            <strong>{{ $errors->first('username') }}</strong>
                         </span>
                     @endif
                 </div>

@@ -1,12 +1,12 @@
 window.onload = function () {
-    let username = document.querySelector('input[name="account"]');
+    let username = document.querySelector('input[name="username"]');
     let email = document.querySelector('input[name="email"]');
     username.value = 'user';
     email.value = 'email';   
 
     function registerInsertAndValidate() {
         let formRegister = document.querySelector('#formRegister');
-        let username = document.querySelector('input[name="account"]');
+        let username = document.querySelector('input[name="username"]');
         let email = document.querySelector('input[name="email"]');
         let pass = document.querySelector('input[name="pass"]');
         let repass = document.querySelector('input[name="password_confirmation"]');
@@ -81,7 +81,8 @@ window.onload = function () {
             } else {
                delete errors.secretAnswer;
             }
-
+            username.value = '';
+            email.value = '';
             sendDataToMsql();
             
         });
@@ -101,14 +102,11 @@ window.onload = function () {
         let blockAnswer = document.querySelector('#answerSecretError');
         let blockPass = document.querySelector('#passError');
 
-        let usernameInput = document.querySelector('input[name="account"]');
-
         if(errors.length != 0) {
 
             if(errors.username) {
                 blockAccount.style.display = 'block';
                 errorAccount.innerHTML = errors.username;
-                usernameInput.value = errors.userValue;
             } else {
                 blockAccount.style.display = 'none';
                 errorAccount.innerHTML = '';
@@ -219,7 +217,7 @@ window.onload = function () {
     }
 
     function formValidationForm() {
-        let username = document.querySelector('input[name="account"]');
+        let username = document.querySelector('input[name="username"]');
         let email = document.querySelector('input[name="email"]');
         let obj = {};
         username.addEventListener('change', function() {
@@ -229,12 +227,14 @@ window.onload = function () {
 
         async function userValidation(){
             let usernameValid = await validUsername(username.value);
-            if(usernameValid == 0) {
-                obj.username = `El nombre ya esta en uso`;
-                showMessagesError(obj);
-            } else {
-                delete obj.username;
-                showMessagesError(obj);
+            if(username.value != '') {
+                if(usernameValid == 0) {
+                    obj.username = `El nombre ya esta en uso`;
+                    showMessagesError(obj);
+                } else {
+                    delete obj.username;
+                    showMessagesError(obj);
+                }
             }
         }
 
@@ -245,12 +245,14 @@ window.onload = function () {
 
         async function emailValidation() {
             let emailValid = await validEmail(email.value);
-            if(emailValid == 0) {
-                obj.email = `El email ${email.value}, ya esta en uso`;
-                showMessagesError(obj);
-            } else {
-                delete obj.email;
-                showMessagesError(obj);
+            if(email.value != '') {
+                if(emailValid == 0) {
+                    obj.email = `El email ${email.value}, ya esta en uso`;
+                    showMessagesError(obj);
+                } else {
+                    delete obj.email;
+                    showMessagesError(obj);
+                }
             }
         }
     }

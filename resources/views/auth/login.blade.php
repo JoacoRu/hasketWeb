@@ -1,35 +1,39 @@
-<article class="LoginContainer">
-    <div class="loginContent">
-        <div class="noticiaTitulo">
-            <h4>Ingresa</h4>
-        </div>
-        <div class="formContainer">
-            <form method="post">
-                <div class="infoContainer">
-                    <div class="labelLogin">
-                        <label for="account">Usuario</label>
-                    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <!-- BootsTrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Kanit" rel="stylesheet">
+    <title>Hasket Mu - Home</title>
+</head>
+<body>
+    @include('partials.header')
+    <section class="container-fluid">
+        @include('modules.server_info')
+        <section class="contentContainer">
+            <div class="separator">
+                @include('partials.login')
+            </div>
+            @include('modules.aside')
+        </section>
+        @include('partials.footer')
+    </section>
 
-                    <div class="inputLogin">
-                        <input type="text" name="account" id="account">
-                    </div>
-                </div>
-
-                    <div class="infoContainer">
-                        <div class="labelLogin">
-                            <label for="pass">Contraseña</label> <span><a href="#">olvidaste?</a></span>
-                        </div>
-
-                        <div class="inputLogin">
-                            <input type="password" name="pass" id="pass">
-                        </div>
-                    </div>
-
-                    <div class="buttonLogin">
-                        <button type="submit">Entrar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</article>
+    <!-- SCRIPTS BOOTSTRAP -->
+    @include('partials.scripts_bootstrap')
+    <!-- SCRIPTS -->
+    <script src="{{ asset('js/home.js') }}"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
+</body>
+</html>

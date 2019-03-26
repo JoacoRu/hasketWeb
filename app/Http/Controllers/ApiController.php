@@ -19,8 +19,8 @@ class ApiController extends Controller
     public function validUsername(Request $request)
     {
         $answer;
-        $user = User::select('account')
-                    ->where('account', $request->username)
+        $user = User::select('username')
+                    ->where('username', $request->username)
                     ->get();
 
         if(count($user) == 0) {

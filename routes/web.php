@@ -21,5 +21,5 @@ Route::get('/panel', 'viewsController@viewPanelUser');
 Route::get('/ranking', 'viewsController@viewRanking');
 Route::get('/downloads', 'viewsController@viewDownloads');
 Auth::routes();
-
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );
 Route::get('/home', 'HomeController@index');

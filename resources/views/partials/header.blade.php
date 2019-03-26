@@ -6,11 +6,11 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <div class="logoMenuBurguer"><h3>HASKET MU</h3></div>
-                <a class="dropdown-item" href="#">DESCARGAS</a>
-                <a class="dropdown-item" href="#">RANKING</a>
-                <a class="dropdown-item" href="#">PANEL DE USUARIO</a>
-                <a class="dropdown-item cuentasMenuHeaderMobile" href="#">ENTRAR</a>
-                <a class="dropdown-item cuentasMenuHeaderMobile" href="#">CREAR CUENTA</a>
+                <a class="dropdown-item" href="/downloads">DESCARGAS</a>
+                <a class="dropdown-item" href="/ranking">RANKING</a>
+                <a class="dropdown-item" href="/panel">PANEL DE USUARIO</a>
+                <a class="dropdown-item cuentasMenuHeaderMobile" href="/login">ENTRAR</a>
+                <a class="dropdown-item cuentasMenuHeaderMobile" href="/register">CREAR CUENTA</a>
             </div>
           </div>
     </div>
@@ -33,25 +33,40 @@
     <div class="headerNormalDivDos">
         <ul class="headerNormalUl">
             <div class="divHeaderNormalLi">
-                <li class="headerNormalLi">DESCARGAS</li>
+                <li class="headerNormalLi"><a href="/downloads" style="color: white;">DESCARGAS</a></li>
             </div>
 
             <div class="divHeaderNormalLi">
-                <li class="headerNormalLi">RANKING</li>
+                <li class="headerNormalLi"><a href="/ranking" style="color: white;">RANKING</a></li>
             </div>
-
+            @if(Auth::check() == 1)
             <div class="divHeaderNormalLi">
-                <li class="headerNormalLi">MI CUENTA</li>
+                <li class="headerNormalLi"><a href="/panel" style="color: white;">MI CUENTA</a></li>
             </div>
+            @endif
 
-            <div class="divHeaderNormalLi">
-                <li class="headerNormalLi">ENTRAR</li>
-            </div>
 
-            <div class="divHeaderNormalLi">
-                <li class="headerNormalLi">CREAR CUENTA</li>
-            </div>
+            @if(Auth::check() != 1)
+                <div class="divHeaderNormalLi">
+                    <li class="headerNormalLi"><a href="/login" style="color: white;">ENTRAR</a></li>
+                </div>
+            @else
+                <div class="divHeaderNormalLi">
+                    <li class="headerNormalLi"><a href="/#" style="color: white;">DONACIONES</a></li>
+                </div>
+            @endif
+
+            @if(Auth::check() != 1)
+                <div class="divHeaderNormalLi">
+                    <li class="headerNormalLi"><a href="/register" style="color: white;">CREAR CUENTA</a></li>
+                </div>
+            @else
+                <div class="divHeaderNormalLi">
+                    <li class="headerNormalLi"><a href="logout" style="color: white;">SALIR</a></li>
+                </div>
+            @endif
         </ul>
+        
     </div>
 
     <div class="headerNormalDivTres">
