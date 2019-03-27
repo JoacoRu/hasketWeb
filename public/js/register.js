@@ -16,6 +16,8 @@ window.onload = function () {
         var errors = {};
     
         formRegister.addEventListener('submit', function(e) {
+            let usernameLocal = window.localStorage.getItem('username');
+            let emailLocal = window.localStorage.getItem('email');
             if(isAEmptyString(username.value)) {
                 errors.username = 'El campo es obligatorio';
                 showMessagesError(errors);            
@@ -28,6 +30,10 @@ window.onload = function () {
                 errors.username = 'El nombre de usuario debe ser una cadena de texto';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else if (usernameLocal == username.value) {
+                errors.username = `El nombre ${username.value}, ya esta en uso`;
+                showMessagesError(errors);
+                e.preventDefault();
             } else {
                 delete errors.username;
             }
@@ -38,6 +44,10 @@ window.onload = function () {
                 e.preventDefault();
             } else if(isValidEmail(email.value) == false) {
                 errors.email = 'Por favor ingresa un email con formato valido';
+                showMessagesError(errors);
+                e.preventDefault();
+            } else if (emailLocal == email.value){
+                errors.email = `El email ${email.value}, ya esta en uso`;
                 showMessagesError(errors);
                 e.preventDefault();
             } else {
@@ -81,10 +91,7 @@ window.onload = function () {
             } else {
                delete errors.secretAnswer;
             }
-            username.value = '';
-            email.value = '';
-            sendDataToMsql();
-            
+            sendDataToMsql(username.value, pass.value, email.value, country.value, secretQuestion.value, secretAnswer.value);
         });
     }
 
@@ -230,6 +237,7 @@ window.onload = function () {
             if(username.value != '') {
                 if(usernameValid == 0) {
                     obj.username = `El nombre ya esta en uso`;
+                    window.localStorage.setItem('username', username.value);
                     showMessagesError(obj);
                 } else {
                     delete obj.username;
@@ -248,6 +256,7 @@ window.onload = function () {
             if(email.value != '') {
                 if(emailValid == 0) {
                     obj.email = `El email ${email.value}, ya esta en uso`;
+                    window.localStorage.setItem('email', email.value);
                     showMessagesError(obj);
                 } else {
                     delete obj.email;
@@ -257,7 +266,7 @@ window.onload = function () {
         }
     }
 
-    function sendDataToMsql() {
+    function sendDataToMsql(account, password, email, country, secretQuestion, secretAnswer) {
         let blockAccount = document.querySelector('#accountError');
         let blockEmail = document.querySelector('#emailError');
         let blockCountry = document.querySelector('#countryError');
@@ -266,8 +275,90 @@ window.onload = function () {
         let blockPass = document.querySelector('#passError');
 
         if(blockAccount.style.display == 'none' && blockEmail.style.display == 'none' && blockCountry.style.display == 'none' && blockQuestion.style.display == 'none' && blockAnswer.style.display == 'none' && blockPass.style.display == 'none') {
-            console.log('inserto datos');
+            fetchMssql(account, password, email, country, secretQuestion, secretAnswer);
         }
+    }
+
+    function fetchMssql(account, password, email, country, secretQuestion, secretAnswer) {
+        let pass = '';
+        let date = dateToMssql();
+       payload = {
+            "pass": pass,
+            "memb___id": account,
+            "memb__pwd": password,
+            "memb_name": "lala",
+            "sno__numb": "111111111111 ",
+            "post_code": null,
+            "addr_info": null,
+            "addr_deta": null,
+            "tel__numb": null,
+            "phon_numb": null,
+            "mail_addr": email,
+            "fpas_ques": null,
+            "fpas_answ": null,
+            "job__code": null,
+            "mail_chek": "1",
+            "bloc_code": "0",
+            "ctl1_code": "0",
+            "cspoints": null,
+            "VipType": null,
+            "VipStart": null,
+            "VipDays": null,
+            "JoinDate": null,
+            "confirmed": 1,
+            "SecretAnswer": secretAnswer,
+            "activation_id": "60a115aca9efda9b2dbe9c8d27a3ce3d",
+            "Gender": 1,
+            "Country": country,
+            "SecretQuestion": secretQuestion,
+            "Vip": 0,
+            "InicioVIP": "0",
+            "FinVIP": "0",
+            "VipTipe": 0,
+            "VipDate": "0",
+            "VipINF": "0",
+            "admincp": 0,
+            "credits": 0,
+            "credits2": 0,
+            "m_Grand_Resets": 0,
+            "acc_ip": null,
+            "mvc_vip_date": "0",
+            "acc_info_text": null,
+            "msponsor_limit": 0,
+            "msponsor_date": null,
+            "mvc_flag": null,
+            "smtp_block": 0,
+            "scrable_word": null,
+            "scrable_original": null,
+            "scrable_wrong": 0,
+            "scrable_level": 0
+        }
+
+        // var data = new FormData();
+        // data.append( "json", JSON.stringify( payload ) );
+
+        fetch("http://145.239.19.132:3001/users",
+        {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-type': 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Length': '4'
+            },
+        })
+        .then((data) => {
+            JSON.parse(data)
+          })
+          .catch((error) => {
+            throw error;
+          })
+    }
+
+    function dateToMssql() {
+        let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+        return date;
     }
 
     formValidationForm();
