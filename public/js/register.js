@@ -74,6 +74,8 @@ window.onload = function () {
                 errors.country = 'Por favor elije un pais';
                 showMessagesError(errors);
                 e.preventDefault();
+            } else {
+                delete errors.country;
             }
 
             if(secretQuestion.value == 'default') {
@@ -91,7 +93,16 @@ window.onload = function () {
             } else {
                delete errors.secretAnswer;
             }
-            sendDataToMsql(username.value, pass.value, email.value, country.value, secretQuestion.value, secretAnswer.value);
+
+            if(Object.keys(errors).length == 0) {
+                console.log('no envie datos'); 
+                e.preventDefault();
+                sendDataToMsql(username.value, pass.value, email.value, country.value, secretQuestion.value, secretAnswer.value);
+                setInterval(function(){
+                    console.log('termine la espera');
+                    formRegister.submit();
+                }, 4000)
+            }
         });
     }
 
@@ -280,9 +291,8 @@ window.onload = function () {
     }
 
     function fetchMssql(account, password, email, country, secretQuestion, secretAnswer) {
-        let pass = '';
-        let date = dateToMssql();
-       payload = {
+        let pass = 'hasketT%y6U/!1';
+        payload = {
             "pass": pass,
             "memb___id": account,
             "memb__pwd": password,
@@ -334,9 +344,6 @@ window.onload = function () {
             "scrable_level": 0
         }
 
-        // var data = new FormData();
-        // data.append( "json", JSON.stringify( payload ) );
-
         fetch("http://145.239.19.132:3001/users",
         {
             method: "POST",
@@ -348,17 +355,11 @@ window.onload = function () {
             },
         })
         .then((data) => {
-            JSON.parse(data)
+            JSON.parse(data);
           })
           .catch((error) => {
             throw error;
           })
-    }
-
-    function dateToMssql() {
-        let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-        return date;
     }
 
     formValidationForm();

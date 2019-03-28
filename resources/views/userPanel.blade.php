@@ -23,28 +23,34 @@
         <section class="contentContainer">
             <div class="separator">
                 <article class="userPanelContainer">
-                    <div class="selectPj" style="display: none;">
-                        <form mehtod="get">
-                            <div class="infoContainer" id="selectContainer">
-                                <div class="labelLogin">
-                                    <label for="pj">Seleccion un personaje</label></span>
-                                </div>
-
-                                <div class="infoLogin">
-                                    <select name="pj" id="country">
-                                        <option value="default">Seleccion un personaje</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                     <div class="menuPersonaje">
                         <ul class="menuPersonajeUl">
-                            <li>Resetear</li>
-                            <li>Puntos</li>
-                            <li>Limpiar Pk</li>
+                            <li>Personajes</li>
                             <li>Cambiar contraseña</li>
                         </ul>
+                    </div>
+
+                    <div class="pjContainer">
+                        <div class="card">
+                            <img src="{{ asset('images/personajes/sm.png') }}" alt="Avatar" style="width:100%">
+                            <div class="container-card">
+                                <h4><b>Fifi97</b></h4>
+                                <div class="card-info">
+                                    <p>Resets: 3</p>
+                                    <p>Nivel: 148</p>
+                                    <p>Puntos: 300</p>
+                                    <p>Nivel Pk: Asesino</p>
+                                    <p>Clase: Dark Wizard</p>
+                                </div>
+                                <div class="card-buttons">
+                                    <ul class="ul-card">
+                                        <li>Limpiar Pk</li>
+                                        <li>Resetear</li>
+                                        <li>Añadir puntos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="menuAñadirPuntos" style="display: none;">
@@ -71,8 +77,8 @@
                             </div>
                         </form>
                     </div>
-
-                    <div class="confirmarPass">
+                    
+                    <div class="confirmarPass" style="display: none;">
                         <form method="put" class="formPass">
                             <div class="infoContainer">
                                 <div class="labelLogin">
@@ -108,7 +114,7 @@
     <!-- SCRIPTS BOOTSTRAP -->
     @include('partials.scripts_bootstrap')
     <!-- SCRIPTS -->
-    <script src="{{ asset('js/home.js') }}"></script>
+    <script src="{{ asset('js/panel.js') }}"></script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
 </body>

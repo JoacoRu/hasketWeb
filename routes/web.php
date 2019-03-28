@@ -15,8 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/index', 'viewsController@viewHome');
-Route::get('/login', 'viewsController@viewLogin');
-Route::get('/register', 'viewsController@viewRegister');
 Route::get('/panel', 'viewsController@viewPanelUser');
 Route::get('/ranking', 'viewsController@viewRanking');
 Route::get('/downloads', 'viewsController@viewDownloads');
