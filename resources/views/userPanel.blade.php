@@ -23,34 +23,18 @@
         <section class="contentContainer">
             <div class="separator">
                 <article class="userPanelContainer">
+                    <div class="noticiaTitulo">
+                        <h4>Panel</h4>
+                    </div>
                     <div class="menuPersonaje">
                         <ul class="menuPersonajeUl">
-                            <li>Personajes</li>
-                            <li>Cambiar contraseña</li>
+                            <li id="liCharacter"><a id="aCharacter" style="color: white; border-bottom: none;" href="#aCharacter">Personajes</a></li>
+                            <li id="liChangePass"><a id="aChangePass" style="color: white; border-bottom: none;" href="#aCharacter">Cambiar contraseña</a></li>
                         </ul>
                     </div>
 
+                    <input type="hidden" name="username" value="{{ Auth::user()->username}}">
                     <div class="pjContainer">
-                        <div class="card">
-                            <img src="{{ asset('images/personajes/sm.png') }}" alt="Avatar" style="width:100%">
-                            <div class="container-card">
-                                <h4><b>Fifi97</b></h4>
-                                <div class="card-info">
-                                    <p>Resets: 3</p>
-                                    <p>Nivel: 148</p>
-                                    <p>Puntos: 300</p>
-                                    <p>Nivel Pk: Asesino</p>
-                                    <p>Clase: Dark Wizard</p>
-                                </div>
-                                <div class="card-buttons">
-                                    <ul class="ul-card">
-                                        <li>Limpiar Pk</li>
-                                        <li>Resetear</li>
-                                        <li>Añadir puntos</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="menuAñadirPuntos" style="display: none;">

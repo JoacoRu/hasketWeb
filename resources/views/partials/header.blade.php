@@ -8,9 +8,21 @@
                 <div class="logoMenuBurguer"><h3>HASKET MU</h3></div>
                 <a class="dropdown-item" href="/downloads">DESCARGAS</a>
                 <a class="dropdown-item" href="/ranking">RANKING</a>
-                <a class="dropdown-item" href="/panel">PANEL DE USUARIO</a>
-                <a class="dropdown-item cuentasMenuHeaderMobile" href="/login">ENTRAR</a>
-                <a class="dropdown-item cuentasMenuHeaderMobile" href="/register">CREAR CUENTA</a>
+                @if(Auth::check() == 1)
+                    <a class="dropdown-item" href="/panel">PANEL DE USUARIO</a>
+                @endif
+
+                @if(Auth::check() != 1)
+                    <a class="dropdown-item cuentasMenuHeaderMobile" href="/login">ENTRAR</a>
+                @else
+                    <a class="dropdown-item cuentasMenuHeaderMobile" href="/login">DONACIONES</a>
+                @endif
+
+                @if(Auth::check() != 1)
+                    <a class="dropdown-item cuentasMenuHeaderMobile" href="/register">CREAR CUENTA</a>
+                @else
+                    <a class="dropdown-item cuentasMenuHeaderMobile" href="logout">SALIR</a>
+                @endif
             </div>
           </div>
     </div>

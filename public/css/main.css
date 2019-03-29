@@ -494,6 +494,7 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 50%;
+  margin-bottom: 2%;
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -566,11 +567,20 @@
 }
 
 .menuPersonajeUl li:hover{
-  background-color: #fff;
+  background-color: #028090;
   padding: 5px;
   border-radius: 5px;
   color: #333;
   transition-duration: 2s;
+  outline: none;
+}
+
+#aCharacter:hover {
+  text-decoration: none;
+}
+
+#aChangePass:hover {
+  text-decoration: none;
 }
 
 .menuPersonajeUl li:first-child {
@@ -980,6 +990,17 @@
   .formContainer {
     width: 40%;
   }
+
+  .pjContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    margin-right: 2%;
+    margin-left: 2%;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -996,6 +1017,30 @@
   }
 }
 
+@media (min-width: 900px) {
+  .card {
+    width: 41%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card {
+    width: 36%;
+  }
+}
+
+@media (min-width: 1300px) {
+  .card {
+    width: 33%;
+  }
+}
+
+@media (min-width: 1500px) {
+  .card {
+    width: 29%;
+  }
+}
+
 @media (min-width: 1700px) {
   .formContainer {
     width: 30%;
@@ -1003,6 +1048,10 @@
 
   .buttonLogin button {
     margin-bottom: 5%;
+  }
+
+  .card {
+    width: 26%;
   }
 }
 
@@ -1013,5 +1062,9 @@
 
   .buttonLogin button {
     margin-bottom: 5%;
+  }
+
+  .card {
+    width: 24%;
   }
 }
