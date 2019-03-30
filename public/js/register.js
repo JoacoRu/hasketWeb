@@ -210,7 +210,6 @@ window.onload = function () {
         let answer;
         const response = await fetch(`/api/username/${user}`);
         const json = await response.json();
-
         if(json == 1) {
             answer = 1;
         } else {

@@ -33,6 +33,12 @@
                         </ul>
                     </div>
 
+                    <div id="msjError" style="display: none;">
+                        <div class="alert alert-danger col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                            <strong class="msjErrorContent">Mensaje Prueba</strong>
+                        </div>
+                    </div>
+
                     <input type="hidden" name="username" value="{{ Auth::user()->username}}">
                     <div class="pjContainer">
                     </div>
@@ -101,5 +107,89 @@
     <script src="{{ asset('js/panel.js') }}"></script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
+    <script type="text/javascript">
+        function doAReset(username, zen, level, reset, LevelUpPoint, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets) {
+            let obj = {};
+            if(zen < 50000000) {
+                obj.zen = `No tienes suficiente zen, necesitas ${howManyZen(zen)} para resetear `;
+                showMessages(obj);
+            } else {
+                delete obj.zen;
+            }
+
+            if(level != 400) {
+                obj.level = `Necesitas ser nivel 400 para poder resetear, tu nivel actual es ${level}`;
+                showMessages(obj);
+            } else {
+                delete obj.level;
+            }
+
+            if(Object.keys(obj).length == 0) {
+                resetear(username, zen, reset, LevelUpPoint, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets);
+                console.log('reseteo');
+            }
+        }
+
+        function howManyZen(zen) {
+            return 50000000 - zen;
+        }
+
+        function resetear(username, zen, reset, LevelUpPoint, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets) {
+            let zenFinal = zen - 50000000;
+            let resetFinal = reset+1;
+            let payload = {
+                pass: 'hasketT%y6U/!1',
+                cLevel: 1,
+                Money: zenFinal,
+                RESETS: resetFinal,
+                MapNumber: 0,
+                Experience: 0,
+                LevelUpPoint: LevelUpPoint,
+                PkCount,
+                PkLevel,
+                CtlCode,
+                FruitPoint,
+                Married,
+                mlNextExp,
+                WinDuels,
+                LoseDuels,
+                Grand_Resets
+            };
+
+            fetch(`http://145.239.19.132:3001/characters/${username}`,
+            {
+                method: "PUT",
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Length': '4'
+                },
+            })
+            .then((data) => {
+                JSON.parse(data);
+            })
+            .catch((error) => {
+                throw error;
+            })
+        } 
+
+        function showMessages(obj) {
+            let containerError = document.querySelector('#msjError');
+            let errorContent = document.querySelector('.msjErrorContent');
+
+            if(obj) {
+                containerError.style.display = 'flex';
+                if(obj.zen && obj.level) {
+                    errorContent.innerHTML = `${obj.zen} </br> </br> ${obj.level}`;
+                } else if (obj.zen && !obj.level) {
+                    errorContent.innerHTML = `${obj.zen}`;
+                } else if (!obj.zen && obj.level) {
+                    errorContent.innerHTML = `${obj.level}`;
+                }
+            }
+        }
+    
+    </script>
 </body>
 </html>

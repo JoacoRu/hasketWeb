@@ -34,7 +34,7 @@ window.onload = function() {
                             <div class="card-buttons">
                                 <ul class="ul-card">
                                     <li>Limpiar Pk</li>
-                                    <li>Resetear</li>
+                                    <li onClick="return doAReset('${element.Name}', ${element.Money}, ${element.cLevel}, ${element.RESETS}, ${element.LevelUpPoint}, ${element.PkCount}, ${element.PkLevel}, ${element.CtlCode}, ${element.FruitPoint}, ${element.Married}, ${element.mlNextExp}, ${element.WinDuels}, ${element.LoseDuels}, ${element.Grand_Resets}, )">Resetear</li>
                                     <li>Añadir puntos</li>
                                 </ul>
                             </div>
@@ -47,52 +47,98 @@ window.onload = function() {
 
     function characterClass(numb) {
         let answer = '';
-        if(numb == 0) {
-            answer = 'Dark Wizard';
-        } else if(numb == 1) {
-            answer = 'Soul Master';
-        } else if (numb == 2) {
-            answer = 'Grand Master';
-        } else if (numb == 16) {
-            answer = 'Dark Knight';
-        } else if (numb == 17) {
-            answer = 'Blade Knight';
-        } else if (numb == 18) {
-            answer = 'Blade Master';
-        } else if (numb == 32) {
-            answer = 'Elf';
-        } else if (numb == 33) {
-            answer = 'Muse Elf';
-        } else if (numb == 34) {
-            answer = 'High Elf';
-        } else if (numb == 48) {
-            answer = 'Magic Gladiator';
-        } else if (numb == 49) {
-            answer = 'Duel Master';
-        } else if (numb = 50) {
-            answer = 'Duel Master';
-        } else if (numb == 64) {
-            answer = 'Dark Lord';
-        } else if (numb == 66) {
-            answer = 'Lord Emperor';
-        } else if (numb == 65) {
-            answer = 'Lord Emperor';
-        } else if (numb == 80) {
-            answer = 'Summoner';
-        } else if (numb == 81) {
-            answer = 'Bloody Summoner';
-        } else if (numb == 82) {
-            answer = 'Dimension Master';
-        } else if (numb == 96) {
-            answer = 'Rage Fighter';
-        } else if (numb == 97) {
-            answer = 'Rage Fighter';
-        } else if (numb == 98) {
-            answer = 'First Master';
-        } else if (numb == 122) {
-            answer = 'Grow Lancer';
-        } else {
-            answer = 'undefined';
+        switch (numb) {
+            case 0:
+                answer = 'Dark Wizard';
+                break;
+
+            case 1:
+                answer = 'Soul Master';
+                break;
+
+            case 2:
+                answer = 'Grand Master';
+                break;
+
+            case 16:
+                answer = 'Dark Knight';
+                break;
+
+            case 17:
+                answer = 'Blade Knight';
+                break;
+
+            case 18:
+                answer = 'Blade Master';
+                break;
+
+            case 32:
+                answer = 'Elf';
+                break;
+
+            case 33:
+                answer = 'Muse Elf';
+                break;
+
+            case 34:
+                answer = 'High Elf';
+                break;
+
+            case 48:
+                answer = 'Magic Gladiator';
+                break;
+
+            case 49:
+                answer = 'Duel Master';
+                break;
+
+            case 50:
+                answer = 'Duel Master';
+                break;
+
+            case 64:
+                answer = 'Dark Lord';
+                break;
+
+            case 66:
+                answer = 'Dark Lord';
+                break;
+
+            case 65:
+                answer = 'Lord Emperor';
+                break;
+
+            case 80:
+                answer = 'Summoner';
+                break;
+
+            case 81:
+                answer = 'Bloody Summoner';
+                break;
+
+            case 82:
+                answer = 'Dimension Master';
+                break;
+
+            case 96:
+                answer = 'Rage Fighter';
+                break;
+
+            case 97:
+                answer = 'Rage Fighter';
+                break;
+
+            case 98:
+                answer = 'First Master';
+                break;
+
+            case 122:
+                answer = 'Grow Lancer';
+                break;
+        
+            default:
+                answer = 'Undefined';
+                break;
         }
 
         return answer;
@@ -100,22 +146,95 @@ window.onload = function() {
 
     function characterImage(numb) {
         let answer = '';
-        if(numb == 0 || numb == 1 || numb == 2) {
-            answer = 'sm';
-        } else if(numb == 16 || numb == 17 || 18) {
-            answer = 'bk';
-        } else if (numb == 32 || numb == 33 || numb == 34) {
-            answer = 'elf';
-        } else if ( numb == 48 || numb == 49 || numb == 50) {
-            answer = 'mg';
-        } else if (numb == 64 || numb == 66 || numb == 65) {
-            answer = 'dl';
-        } else if (numb == 80 || numb == 82 || numb == 82) {
-            answer = 'sum';
-        } else if (numb == 96 || numb == 97 || numb == 98) {
-            answer = 'rf';
-        } else if (numb == 122) {
-            answer = 'grow_lancer';
+
+        switch (numb) {
+            case 0:
+                answer = 'sm';
+                break;
+
+            case 1:
+                answer = 'sm';
+                break;
+
+            case 2:
+                answer = 'sm';
+                break;
+
+            case 16:
+                answer = 'bk';
+                break;
+
+            case 17:
+                answer = 'bk';
+                break;
+
+            case 18:
+                answer = 'bk';
+                break;
+
+            case 32:
+                answer = 'elf';
+                break;
+
+            case 33:
+                answer = 'elf';
+                break;
+
+            case 34:
+                answer = 'elf';
+                break;
+
+            case 48:
+                answer = 'mg';
+                break;
+
+            case 49:
+                answer = 'mg';
+                break;
+
+            case 50:
+                answer = 'mg';
+                break;
+
+            case 64:
+                answer = 'dl';
+                break;
+
+            case 66:
+                answer = 'dl';
+                break;
+
+            case 65:
+                answer = 'dl';
+                break;
+
+            case 80:
+                answer = 'sum';
+                break;
+
+            case 81:
+                answer = 'sum';
+                break;
+
+            case 82:
+                answer = 'sum';
+                break;
+
+            case 96:
+                answer = 'rf';
+                break;
+
+            case 97:
+                answer = 'rf';
+                break;
+
+            case 98:
+                answer = 'rf';
+                break;
+
+            case 122:
+                answer = 'grow_lancer';
+                break;
         }
 
         return answer;
@@ -161,6 +280,8 @@ window.onload = function() {
             liPj.addEventListener('click' ,liCharacterDisplay);
         }
     }
+
+    
 
     bringAllPj();
     menuInteractive();

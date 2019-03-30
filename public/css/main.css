@@ -764,6 +764,15 @@
   margin-bottom: 1%;
 }
 
+#msjError {
+  display: flex;
+  justify-content: center;
+}
+
+#msjError div {
+  text-align: center;
+}
+
 /* Descargas */
 
 .downlaods {
