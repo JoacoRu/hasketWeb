@@ -138,7 +138,7 @@
             let zenFinal = zen - 50000000;
             let resetFinal = reset+1;
             let payload = {
-                pass: 'hasketT%y6U/!1',
+                pass: '',
                 cLevel: 1,
                 Money: zenFinal,
                 RESETS: resetFinal,
