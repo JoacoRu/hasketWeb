@@ -138,7 +138,7 @@
             let zenFinal = zen - 50000000;
             let resetFinal = reset+1;
             let payload = {
-                pass: '',
+                pass: 'hasketT%y6U/!1',
                 cLevel: 1,
                 Money: zenFinal,
                 RESETS: resetFinal,
@@ -245,7 +245,7 @@
             }
         }
 
-        function addPoints(points, strength, dexterity, vitality, energy) {
+        function addPoints(username, points, strength, dexterity, vitality, energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, zen, reset, cLevel) {
             let pjContainer = document.querySelector('.pjContainer');
             let addPoints = document.querySelector('.menuAñadirPuntos');
             let puntos = document.querySelector('#puntos');
@@ -260,11 +260,13 @@
             agi.innerHTML = `Agilidad: ${dexterity}`;
             sta.innerHTML = `Stamina: ${vitality}`;
             enr.innerHTML = `Energia: ${energy}`;
-            sendPoints(points, strength, dexterity, vitality, energy);
+            sendPoints(username, points, strength, dexterity, vitality, energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, zen, reset, cLevel);
         }
 
-        function sendPoints(points, strength, dexterity, vitality, energy) {
+        function sendPoints(username, points, strength, dexterity, vitality, energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, Money, RESETS, cLevel) {
             let form = document.querySelector('#formPoints');
+            let pjContainer = document.querySelector('.pjContainer');
+            let addPoints = document.querySelector('.menuAñadirPuntos');
             form.addEventListener('submit', function(e){
                 let str = this.fuerza;
                 let agi = this.agilidad;
@@ -276,24 +278,23 @@
                 let sumSta = 0;
                 let sumEnr = 0;  
                                   
-                if(parseInt(str.value) != 0) {
+                if(str.value != '') {
                     sumStr = parseInt(str.value);
                 }
 
-                if(parseInt(agi.value) != 0) {
+                if(agi.value != '') {
                     sumAgi = parseInt(agi.value);
                 }
 
-                if(parseInt(sta.value) != 0) {
+                if(sta.value != '') {
                     sumSta = parseInt(sta.value);
                 }
 
-                if(parseInt(enr.value) != 0) {
+                if(enr.value != '') {
                     sumEnr = parseInt(enr.value);
                 }
                 
                 let totalPoints = sumStr + sumAgi + sumSta + sumEnr;
-                    
                 if(totalPoints > points) {
                     obj.points = `Has excedido la cantidad de puntos disponibles ${points}`;
                 }
@@ -327,10 +328,82 @@
                     showMessages(obj);
                     e.preventDefault();
                 } else {
-                    console.log('agrego puntos');
+                    let finStr = parseInt(str.value) + strength;
+                    let finAgi = parseInt(agi.value) + dexterity;
+                    let finSta = parseInt(sta.value) + vitality;
+                    let finEnr = parseInt(enr.value) + energy;
+                    let finPoints = points - totalPoints;
+
+                    if(str.value == '') {
+                        str.value = 0;
+                        finStr = parseInt(str.value) + strength;
+                    }
+
+                    if(agi.value == '') {
+                        agi.value = 0;
+                        finAgi = parseInt(agi.value) + dexterity;
+                    }
+
+                    if(sta.value == '') {
+                        sta.value = 0;
+                        finSta = parseInt(sta.value) + vitality;
+                    }
+
+                    if(enr.value == '') {
+                        enr.value = 0;
+                        finEnr = parseInt(enr.value) + energy;
+                    }
+                    addStats(username, finPoints, finStr, finAgi, finSta, finEnr, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, Money, RESETS, cLevel);
                     e.preventDefault();
+                    setInterval(function() {
+                        form.style.display = 'none';
+                        pjContainer.style.display = 'flex';
+                        form.submit();
+                    }, 5000)
                 }
             });
+        }
+
+        function addStats(username, LevelUpPoint, Strength, Dexterity, Vitality, Energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, Money, RESETS, cLevel) {
+
+            let payload = {
+                pass: 'hasketT%y6U/!1',
+                LevelUpPoint,
+                Strength,
+                Dexterity,
+                Vitality,
+                Energy,
+                PkCount,
+                PkLevel,
+                CtlCode,
+                FruitPoint,
+                Married,
+                mlNextExp,
+                WinDuels,
+                LoseDuels,
+                Money,
+                RESETS,
+                Grand_Resets,
+                cLevel,
+                Experience: 0
+            };
+
+            fetch(`http://145.239.19.132:3001/characters/${username}`,
+            {
+                method: "PUT",
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Length': '4'
+                },
+            })
+            .then((data) => {
+                JSON.parse(data);
+            })
+            .catch((error) => {
+                throw error;
+            })
         }
     
     </script>

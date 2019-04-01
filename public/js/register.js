@@ -101,7 +101,7 @@ window.onload = function () {
                 setInterval(function(){
                     console.log('termine la espera');
                     formRegister.submit();
-                }, 4000)
+                }, 5000)
             }
         });
     }
