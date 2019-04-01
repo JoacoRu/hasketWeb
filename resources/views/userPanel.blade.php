@@ -35,7 +35,7 @@
 
                     <div id="msjError" style="display: none;">
                         <div class="alert alert-danger col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                            <strong class="msjErrorContent">Mensaje Prueba</strong>
+                            <strong class="msjErrorContent"></strong>
                         </div>
                     </div>
 
@@ -44,25 +44,25 @@
                     </div>
 
                     <div class="menuAñadirPuntos" style="display: none;">
-                        <form method="put">
+                        <form method="put" id="formPoints">
                             <div class="puntosContainer">
                                 <div class="avaiblePoints">
-                                    <p>Puntos disponibles: 1000</p>
+                                    <p id="puntos"></p>
                                 </div>
                                 <div class="addPointsContainer">
-                                    <p>Fuerza</p> <input type="text" name="fuerza" value="1000">
+                                    <p id="str"></p> <input type="number" name="fuerza">
                                 </div>
                                 <div class="addPointsContainer">
-                                    <p>Agilidad</p> <input type="text" name="fuerza" value="1000">
+                                    <p id="agi"></p> <input type="number" name="agilidad">
                                 </div>
                                 <div class="addPointsContainer">
-                                    <p>Stamina</p> <input type="text" name="fuerza" value="1000">
+                                    <p id="sta"></p> <input type="number" name="stamina">
                                 </div>
                                 <div class="addPointsContainer">
-                                    <p>Energia</p> <input type="text" name="fuerza" value="1000">
+                                    <p id="enr"></p> <input type="number" name="energia">
                                 </div>
                                 <div class="addPointsButton">
-                                    <button type="submit">Agregar</button>
+                                    <button type="submit">Agregar puntos</button>
                                 </div>
                             </div>
                         </form>
@@ -180,14 +180,157 @@
 
             if(obj) {
                 containerError.style.display = 'flex';
-                if(obj.zen && obj.level) {
-                    errorContent.innerHTML = `${obj.zen} </br> </br> ${obj.level}`;
-                } else if (obj.zen && !obj.level) {
-                    errorContent.innerHTML = `${obj.zen}`;
-                } else if (!obj.zen && obj.level) {
-                    errorContent.innerHTML = `${obj.level}`;
+                if(Object.keys(obj).length != 1) {
+                    if(obj.zen) {
+                        errorContent.innerHTML += `${obj.zen} </br> </br>`;
+                    }
+                    
+                    if(obj.level) {
+                        errorContent.innerHTML += `${obj.zen} </br> </br>`;
+                    }
+
+                    if(obj.points) {
+                        errorContent.innerHTML += `${obj.points} </br> </br>`;
+                    }
+
+                    if(obj.str) {
+                        errorContent.innerHTML += `${obj.str} </br> </br>`;
+                        console.log(obj.str);
+                    }
+
+                    if(obj.agi) {
+                        errorContent.innerHTML += `${obj.agi} </br> </br>`;
+                    }
+
+                    if(obj.sta) {
+                        errorContent.innerHTML += `${obj.sta} </br> </br>`;
+                    }
+
+                    if(obj.enr) {
+                        errorContent.innerHTML += `${obj.enr} </br> </br>`;
+                    }
+                } else {
+                    if(obj.zen) {
+                        errorContent.innerHTML = `${obj.zen}`;
+                    }
+                    
+                    if(obj.level) {
+                        errorContent.innerHTML = `${obj.zen}`;
+                    }
+
+                    if(obj.number) {
+                        errorContent.innerHTML = `${obj.number}`;
+                    }
+
+                    if(obj.points) {
+                        errorContent.innerHTML = `${obj.points}`;
+                    }
+
+                    if(obj.str) {
+                        errorContent.innerHTML += `${obj.str}`;
+                    }
+
+                    if(obj.agi) {
+                        errorContent.innerHTML += `${obj.agi}`;
+                    }
+
+                    if(obj.sta) {
+                        errorContent.innerHTML += `${obj.sta}`;
+                    }
+
+                    if(obj.enr) {
+                        errorContent.innerHTML += `${obj.enr}`;
+                    }
                 }
             }
+        }
+
+        function addPoints(points, strength, dexterity, vitality, energy) {
+            let pjContainer = document.querySelector('.pjContainer');
+            let addPoints = document.querySelector('.menuAñadirPuntos');
+            let puntos = document.querySelector('#puntos');
+            let str = document.querySelector('#str');
+            let agi = document.querySelector('#agi');
+            let sta = document.querySelector('#sta');
+            let enr = document.querySelector('#enr');
+            pjContainer.style.display = 'none';
+            addPoints.style.display = 'flex';
+            puntos.innerHTML = `Puntos disponibles: ${points}`;
+            str.innerHTML = `Fuerza: ${strength}`;
+            agi.innerHTML = `Agilidad: ${dexterity}`;
+            sta.innerHTML = `Stamina: ${vitality}`;
+            enr.innerHTML = `Energia: ${energy}`;
+            sendPoints(points, strength, dexterity, vitality, energy);
+        }
+
+        function sendPoints(points, strength, dexterity, vitality, energy) {
+            let form = document.querySelector('#formPoints');
+            form.addEventListener('submit', function(e){
+                let str = this.fuerza;
+                let agi = this.agilidad;
+                let sta = this.stamina;
+                let enr = this.energia;
+                let obj = {};
+                let sumStr = 0;
+                let sumAgi = 0;
+                let sumSta = 0;
+                let sumEnr = 0;  
+                                  
+                if(parseInt(str.value) != 0) {
+                    sumStr = parseInt(str.value);
+                }
+
+                if(parseInt(agi.value) != 0) {
+                    sumAgi = parseInt(agi.value);
+                }
+
+                if(parseInt(sta.value) != 0) {
+                    sumSta = parseInt(sta.value);
+                }
+
+                if(parseInt(enr.value) != 0) {
+                    sumEnr = parseInt(enr.value);
+                }
+                
+                let totalPoints = sumStr + sumAgi + sumSta + sumEnr;
+                    
+                if(totalPoints > points) {
+                    obj.points = `Has excedido la cantidad de puntos disponibles ${points}`;
+                }
+
+                if(parseInt(str.value) + strength > 65535) {
+                    obj.str = `Has alcanzado el limite de puntos de fuerza`;
+                } else {
+                    delete obj.str;
+                }
+
+                if(parseInt(agi.value) + dexterity > 65535) {
+                    obj.agi = `Has alcanzado el limite de puntos de agilidad`;
+                    console.log(typeof agi.value);
+                }  else {
+                    delete obj.agi;
+                }
+
+                if(parseInt(sta.value) + vitality > 65535) {
+                    obj.sta = "Has alcanzado el limite de puntos de agilidad";
+                } else {
+                    delete obj.sta;
+                }
+
+                if (parseInt(enr.value) + energy > 65535) {
+                    obj.enr = "Has alcanzado el limite de puntos de energia";
+                } else {
+                    delete obj.enr;
+                }
+
+                if(Object.keys(obj).length != 0) {
+                    showMessages(obj);
+                    e.preventDefault();
+                } else {
+                    console.log('agrego puntos');
+                    e.preventDefault();
+                }
+            });
         }
     
     </script>

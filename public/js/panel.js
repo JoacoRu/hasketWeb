@@ -35,7 +35,7 @@ window.onload = function() {
                                 <ul class="ul-card">
                                     <li>Limpiar Pk</li>
                                     <li onClick="return doAReset('${element.Name}', ${element.Money}, ${element.cLevel}, ${element.RESETS}, ${element.LevelUpPoint}, ${element.PkCount}, ${element.PkLevel}, ${element.CtlCode}, ${element.FruitPoint}, ${element.Married}, ${element.mlNextExp}, ${element.WinDuels}, ${element.LoseDuels}, ${element.Grand_Resets}, )">Resetear</li>
-                                    <li>Añadir puntos</li>
+                                    <li onClick="return addPoints(${element.LevelUpPoint}, ${element.Strength}, ${element.Dexterity}, ${element.Vitality}, ${element.Energy})">Añadir puntos</li>
                                 </ul>
                             </div>
                         </div>
