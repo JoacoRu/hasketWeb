@@ -19,3 +19,5 @@ Route::get('/user', function (Request $request) {
 Route::get('/countries', 'ApiController@bringCountries');
 Route::get('/username/{username}', 'ApiController@validUsername');
 Route::get('/email/{email}', 'ApiController@validEmail');
+Route::get('/bringPjByUserName/{username}', 'ApiController@bringPjByUserName');
+

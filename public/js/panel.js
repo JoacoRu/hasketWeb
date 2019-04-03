@@ -1,8 +1,9 @@
+'use strict';
 window.onload = function() {
 
     async function bringAllPj() {
         const username = document.querySelector('input[name="username"]').value;
-        const response = await fetch(`http://145.239.19.132:3001/charactersByAccount/${username}`);
+        const response = await fetch(`./api/bringPjByUserName/${username}`);
         const json = await response.json();
         renderCharacters(json);
     }
@@ -19,7 +20,7 @@ window.onload = function() {
                 if (obj.hasOwnProperty(i)) {
                     const element = obj[i];
                     appendHTML.innerHTML += `
-                    <div class="card">
+                    <div class="card" id="card">
                         <img src="images/personajes/${characterImage(element.Class)}.png" alt="Avatar" style="width:100%">
                         <div class="container-card">
                             <h4><b>${element.Name}</b></h4>
@@ -34,14 +35,25 @@ window.onload = function() {
                             <div class="card-buttons">
                                 <ul class="ul-card">
                                     <li>Limpiar Pk</li>
-                                    <li onClick="return doAReset('${element.Name}', ${element.Money}, ${element.cLevel}, ${element.RESETS}, ${element.LevelUpPoint}, ${element.PkCount}, ${element.PkLevel}, ${element.CtlCode}, ${element.FruitPoint}, ${element.Married}, ${element.mlNextExp}, ${element.WinDuels}, ${element.LoseDuels}, ${element.Grand_Resets}, )">Resetear</li>
-                                    <li onClick="return addPoints('${element.Name}', ${element.LevelUpPoint}, ${element.Strength}, ${element.Dexterity}, ${element.Vitality}, ${element.Energy}, ${element.PkCount}, ${element.PkLevel}, ${element.CtlCode}, ${element.FruitPoint}, ${element.Married}, ${element.mlNextExp}, ${element.WinDuels}, ${element.LoseDuels}, ${element.Grand_Resets}, ${element.Money}, ${element.RESETS}, ${element.cLevel})">Añadir puntos</li>
+                                    <li class="reset" lala="doAReset('${element.Name}', ${element.Money}, ${element.cLevel}, ${element.RESETS}, ${element.LevelUpPoint}, ${element.PkCount}, ${element.PkLevel}, ${element.CtlCode}, ${element.FruitPoint}, ${element.Married}, ${element.mlNextExp}, ${element.WinDuels}, ${element.LoseDuels}, ${element.Grand_Resets})">Resetear</li>
+                                    <li onclick="return addPoints('${element.Name}', ${element.LevelUpPoint}, ${element.Strength}, ${element.Dexterity}, ${element.Vitality}, ${element.Energy}, ${element.PkCount}, ${element.PkLevel}, ${element.CtlCode}, ${element.FruitPoint}, ${element.Married}, ${element.mlNextExp}, ${element.WinDuels}, ${element.LoseDuels}, ${element.Grand_Resets}, ${element.Money}, ${element.RESETS}, ${element.cLevel})">Añadir puntos</li>
                                 </ul>
                             </div>
                         </div>
                     </div>`;
                 }
             }
+            reset();
+        }
+    }
+
+    function reset() {
+        let card = document.getElementsByClassName('reset');
+        for (const i of card) {
+            i.addEventListener('click', function() {
+                let func = i.getAttribute('lala');
+               eval(func); 
+            });
         }
     }
 
@@ -281,8 +293,304 @@ window.onload = function() {
         }
     }
 
-    
+    function doAReset(username, zen, level, reset, LevelUpPoint, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets) {
+        let obj = {};
+        if(zen < 50000000) {
+            obj.zen = `No tienes suficiente zen, necesitas ${howManyZen(zen)} para resetear `;
+            showMessages(obj);
+        } else {
+            delete obj.zen;
+        }
 
+        if(level != 400) {
+            obj.level = `Necesitas ser nivel 400 para poder resetear, tu nivel actual es ${level}`;
+            showMessages(obj);
+        } else {
+            delete obj.level;
+        }
+
+        if(Object.keys(obj).length == 0) {
+            resetear(username, zen, reset, LevelUpPoint, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets);
+            console.log('reseteo');
+        }
+    }
+
+    function howManyZen(zen) {
+        return 50000000 - zen;
+    }
+
+    function resetear(username, zen, reset, LevelUpPoint, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets) {
+        let zenFinal = zen - 50000000;
+        let resetFinal = reset+1;
+        let payload = {
+            cLevel: 1,
+            Money: zenFinal,
+            RESETS: resetFinal,
+            MapNumber: 0,
+            Experience: 0,
+            LevelUpPoint: LevelUpPoint,
+            PkCount,
+            PkLevel,
+            CtlCode,
+            FruitPoint,
+            Married,
+            mlNextExp,
+            WinDuels,
+            LoseDuels,
+            Grand_Resets
+        };
+
+        fetch(`http://145.239.19.132:3001/characters/${username}`,
+        {
+            method: "PUT",
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-type': 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Length': '4'
+            },
+        })
+        .then((data) => {
+            console.log(data)
+        })
+        .catch((error) => {
+            throw error;
+        })
+    }
+
+    function showMessages(obj) {
+        let containerError = document.querySelector('#msjError');
+        let errorContent = document.querySelector('.msjErrorContent');
+
+        if(obj) {
+            containerError.style.display = 'flex';
+            if(Object.keys(obj).length != 1) {
+                if(obj.zen) {
+                    errorContent.innerHTML += `${obj.zen} </br> </br>`;
+                }
+                
+                if(obj.level) {
+                    errorContent.innerHTML += `${obj.zen} </br> </br>`;
+                }
+
+                if(obj.points) {
+                    errorContent.innerHTML += `${obj.points} </br> </br>`;
+                }
+
+                if(obj.str) {
+                    errorContent.innerHTML += `${obj.str} </br> </br>`;
+                }
+
+                if(obj.agi) {
+                    errorContent.innerHTML += `${obj.agi} </br> </br>`;
+                }
+
+                if(obj.sta) {
+                    errorContent.innerHTML += `${obj.sta} </br> </br>`;
+                }
+
+                if(obj.enr) {
+                    errorContent.innerHTML += `${obj.enr} </br> </br>`;
+                }
+            } else {
+                if(obj.zen) {
+                    errorContent.innerHTML = `${obj.zen}`;
+                }
+                
+                if(obj.level) {
+                    errorContent.innerHTML = `${obj.level}`;
+                }
+
+                if(obj.number) {
+                    errorContent.innerHTML = `${obj.number}`;
+                }
+
+                if(obj.points) {
+                    errorContent.innerHTML = `${obj.points}`;
+                }
+
+                if(obj.str) {
+                    errorContent.innerHTML += `${obj.str}`;
+                }
+
+                if(obj.agi) {
+                    errorContent.innerHTML += `${obj.agi}`;
+                }
+
+                if(obj.sta) {
+                    errorContent.innerHTML += `${obj.sta}`;
+                }
+
+                if(obj.enr) {
+                    errorContent.innerHTML += `${obj.enr}`;
+                }
+            }
+        }
+    }
+
+    function addPoints(username, points, strength, dexterity, vitality, energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, zen, reset, cLevel) {
+        let pjContainer = document.querySelector('.pjContainer');
+        let addPoints = document.querySelector('.menuAñadirPuntos');
+        let puntos = document.querySelector('#puntos');
+        let str = document.querySelector('#str');
+        let agi = document.querySelector('#agi');
+        let sta = document.querySelector('#sta');
+        let enr = document.querySelector('#enr');
+        pjContainer.style.display = 'none';
+        addPoints.style.display = 'flex';
+        puntos.innerHTML = `Puntos disponibles: ${points}`;
+        str.innerHTML = `Fuerza: ${strength}`;
+        agi.innerHTML = `Agilidad: ${dexterity}`;
+        sta.innerHTML = `Stamina: ${vitality}`;
+        enr.innerHTML = `Energia: ${energy}`;
+        sendPoints(username, points, strength, dexterity, vitality, energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, zen, reset, cLevel);
+    }
+
+    function sendPoints(username, points, strength, dexterity, vitality, energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, Money, RESETS, cLevel) {
+        let form = document.querySelector('#formPoints');
+        let pjContainer = document.querySelector('.pjContainer');
+        let addPoints = document.querySelector('.menuAñadirPuntos');
+        form.addEventListener('submit', function(e){
+            let str = this.fuerza;
+            let agi = this.agilidad;
+            let sta = this.stamina;
+            let enr = this.energia;
+            let obj = {};
+            let sumStr = 0;
+            let sumAgi = 0;
+            let sumSta = 0;
+            let sumEnr = 0;  
+                              
+            if(str.value != '') {
+                sumStr = parseInt(str.value);
+            }
+
+            if(agi.value != '') {
+                sumAgi = parseInt(agi.value);
+            }
+
+            if(sta.value != '') {
+                sumSta = parseInt(sta.value);
+            }
+
+            if(enr.value != '') {
+                sumEnr = parseInt(enr.value);
+            }
+            
+            let totalPoints = sumStr + sumAgi + sumSta + sumEnr;
+            if(totalPoints > points) {
+                obj.points = `Has excedido la cantidad de puntos disponibles ${points}`;
+            }
+
+            if(parseInt(str.value) + strength > 65535) {
+                obj.str = `Has alcanzado el limite de puntos de fuerza`;
+            } else {
+                delete obj.str;
+            }
+
+            if(parseInt(agi.value) + dexterity > 65535) {
+                obj.agi = `Has alcanzado el limite de puntos de agilidad`;
+                console.log(typeof agi.value);
+            }  else {
+                delete obj.agi;
+            }
+
+            if(parseInt(sta.value) + vitality > 65535) {
+                obj.sta = "Has alcanzado el limite de puntos de agilidad";
+            } else {
+                delete obj.sta;
+            }
+
+            if (parseInt(enr.value) + energy > 65535) {
+                obj.enr = "Has alcanzado el limite de puntos de energia";
+            } else {
+                delete obj.enr;
+            }
+
+            if(Object.keys(obj).length != 0) {
+                showMessages(obj);
+                e.preventDefault();
+            } else {
+                let finStr = parseInt(str.value) + strength;
+                let finAgi = parseInt(agi.value) + dexterity;
+                let finSta = parseInt(sta.value) + vitality;
+                let finEnr = parseInt(enr.value) + energy;
+                let finPoints = points - totalPoints;
+
+                if(str.value == '') {
+                    str.value = 0;
+                    finStr = parseInt(str.value) + strength;
+                }
+
+                if(agi.value == '') {
+                    agi.value = 0;
+                    finAgi = parseInt(agi.value) + dexterity;
+                }
+
+                if(sta.value == '') {
+                    sta.value = 0;
+                    finSta = parseInt(sta.value) + vitality;
+                }
+
+                if(enr.value == '') {
+                    enr.value = 0;
+                    finEnr = parseInt(enr.value) + energy;
+                }
+                addStats(username, finPoints, finStr, finAgi, finSta, finEnr, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, Money, RESETS, cLevel);
+                e.preventDefault();
+                setInterval(function() {
+                    form.style.display = 'none';
+                    pjContainer.style.display = 'flex';
+                    form.submit();
+                }, 5000)
+            }
+        });
+    }
+
+    function addStats(username, LevelUpPoint, Strength, Dexterity, Vitality, Energy, PkCount, PkLevel, CtlCode, FruitPoint, Married, mlNextExp, WinDuels, LoseDuels, Grand_Resets, Money, RESETS, cLevel) {
+
+        let payload = {
+            pass: 'hasketT%y6U/!1',
+            LevelUpPoint,
+            Strength,
+            Dexterity,
+            Vitality,
+            Energy,
+            PkCount,
+            PkLevel,
+            CtlCode,
+            FruitPoint,
+            Married,
+            mlNextExp,
+            WinDuels,
+            LoseDuels,
+            Money,
+            RESETS,
+            Grand_Resets,
+            cLevel,
+            Experience: 0
+        };
+
+        fetch(`http://145.239.19.132:3001/characters/${username}`,
+        {
+            method: "PUT",
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-type': 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Length': '4'
+            },
+        })
+        .then((data) => {
+            JSON.parse(data);
+        })
+        .catch((error) => {
+            throw error;
+        })
+    }
+    
     bringAllPj();
     menuInteractive();
+
+    
 }

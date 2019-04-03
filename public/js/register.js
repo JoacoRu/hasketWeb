@@ -290,9 +290,7 @@ window.onload = function () {
     }
 
     function fetchMssql(account, password, email, country, secretQuestion, secretAnswer) {
-        let pass = 'hasketT%y6U/!1';
         payload = {
-            "pass": pass,
             "memb___id": account,
             "memb__pwd": password,
             "memb_name": "lala",
