@@ -20,8 +20,8 @@ class ApiController extends Controller
     public function validUsername(Request $request)
     {
         $answer;
-        $user = User::select('username')
-                    ->where('username', $request->username)
+        $user = User::select('memb___id')
+                    ->where('memb___id', $request->username)
                     ->get();
 
         if(count($user) == 0) {
@@ -36,8 +36,8 @@ class ApiController extends Controller
     public function validEmail(Request $request)
     {
         $answer;
-        $user = User::select('email')
-                    ->where('email', $request->email)
+        $user = User::select('mail_addr')
+                    ->where('mail_addr', $request->email)
                     ->get();
                     
         if(count($user) == 0) {
@@ -47,16 +47,5 @@ class ApiController extends Controller
         }
 
         return response()->json($answer);
-    }
-
-    public function bringPjByUserName(Request $request) 
-    {
-        $client = new Client([
-            'base_uri' => '145.239.19.132:3001/',
-            'timeout'  => 20.0,
-        ]);
-        $req = 'charactersByAccount/'.$request->username;
-        $response = $client->request('GET', $req);
-        return $response->getBody()->getContents();
     }
 }

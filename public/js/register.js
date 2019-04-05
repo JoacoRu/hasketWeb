@@ -93,16 +93,6 @@ window.onload = function () {
             } else {
                delete errors.secretAnswer;
             }
-
-            if(Object.keys(errors).length == 0) {
-                console.log('no envie datos'); 
-                e.preventDefault();
-                sendDataToMsql(username.value, pass.value, email.value, country.value, secretQuestion.value, secretAnswer.value);
-                setInterval(function(){
-                    console.log('termine la espera');
-                    formRegister.submit();
-                }, 5000)
-            }
         });
     }
 
@@ -199,7 +189,7 @@ window.onload = function () {
             for (const i in countries) {
                 if (countries.hasOwnProperty(i)) {
                     const element = countries[i];
-                    const html = `<option value="${element.id}">${element.country_name}</option>`;
+                    const html = `<option value="${element.numcode}">${element.name}</option>`;
                     countrySelect.innerHTML += html;
                 }
             }
@@ -274,89 +264,6 @@ window.onload = function () {
                 }
             }
         }
-    }
-
-    function sendDataToMsql(account, password, email, country, secretQuestion, secretAnswer) {
-        let blockAccount = document.querySelector('#accountError');
-        let blockEmail = document.querySelector('#emailError');
-        let blockCountry = document.querySelector('#countryError');
-        let blockQuestion = document.querySelector('#secretQuestionError');
-        let blockAnswer = document.querySelector('#answerSecretError');
-        let blockPass = document.querySelector('#passError');
-
-        if(blockAccount.style.display == 'none' && blockEmail.style.display == 'none' && blockCountry.style.display == 'none' && blockQuestion.style.display == 'none' && blockAnswer.style.display == 'none' && blockPass.style.display == 'none') {
-            fetchMssql(account, password, email, country, secretQuestion, secretAnswer);
-        }
-    }
-
-    function fetchMssql(account, password, email, country, secretQuestion, secretAnswer) {
-        payload = {
-            "memb___id": account,
-            "memb__pwd": password,
-            "memb_name": "lala",
-            "sno__numb": "111111111111 ",
-            "post_code": null,
-            "addr_info": null,
-            "addr_deta": null,
-            "tel__numb": null,
-            "phon_numb": null,
-            "mail_addr": email,
-            "fpas_ques": null,
-            "fpas_answ": null,
-            "job__code": null,
-            "mail_chek": "1",
-            "bloc_code": "0",
-            "ctl1_code": "0",
-            "cspoints": null,
-            "VipType": null,
-            "VipStart": null,
-            "VipDays": null,
-            "JoinDate": null,
-            "confirmed": 1,
-            "SecretAnswer": secretAnswer,
-            "activation_id": "60a115aca9efda9b2dbe9c8d27a3ce3d",
-            "Gender": 1,
-            "Country": country,
-            "SecretQuestion": secretQuestion,
-            "Vip": 0,
-            "InicioVIP": "0",
-            "FinVIP": "0",
-            "VipTipe": 0,
-            "VipDate": "0",
-            "VipINF": "0",
-            "admincp": 0,
-            "credits": 0,
-            "credits2": 0,
-            "m_Grand_Resets": 0,
-            "acc_ip": null,
-            "mvc_vip_date": "0",
-            "acc_info_text": null,
-            "msponsor_limit": 0,
-            "msponsor_date": null,
-            "mvc_flag": null,
-            "smtp_block": 0,
-            "scrable_word": null,
-            "scrable_original": null,
-            "scrable_wrong": 0,
-            "scrable_level": 0
-        }
-
-        fetch("http://145.239.19.132:3001/users",
-        {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: {
-                'Content-type': 'application/json; charset=utf-8',
-                'Access-Control-Allow-Origin': '*',
-                'Content-Length': '4'
-            },
-        })
-        .then((data) => {
-            JSON.parse(data);
-          })
-          .catch((error) => {
-            throw error;
-          })
     }
 
     formValidationForm();

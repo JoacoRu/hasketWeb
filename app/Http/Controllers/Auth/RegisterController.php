@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Memb_info;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -76,17 +76,19 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return Memb_info
      */
     protected function create(array $data)
     {
-        return User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['pass']),
-            'country' => $data['country'],
-            'secretQuestion' => $data['secretQuestion'],
-            'answerQuestion' => $data['answerSecret'],
+        $user = Memb_info::create([
+            'memb___id' => $data['username'],
+            'mail_addr' => $data['email'],
+            'memb__pwd' => $data['pass'],
+            'Country' => $data['country'],
+            'SecretQuestion' => $data['secretQuestion'],
+            'SecretAnswer' => $data['answerSecret'],
         ]);
+
+        return $user;
     }
 }

@@ -13,12 +13,6 @@
                     <div class="inputLogin">
                         <input type="text" name="username" id="username">
                     </div>
-
-                    @if ($errors->has('username'))
-                        <span class="help-block text-danger">
-                            <strong>{{ $errors->first('username') }}</strong>
-                        </span>
-                    @endif
                 </div>
 
                     <div class="infoContainer">
@@ -30,10 +24,12 @@
                             <input type="password" name="password" id="pass">
                         </div>
 
-                        @if ($errors->has('password'))
-                            <span class="help-block text-danger">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
+                        @if (count($errors) != 0)
+                            @foreach($errors as $value)
+                                <span class="help-block text-danger">
+                                    <strong>{{ $value }}</strong>
+                                </span>
+                            @endforeach
                         @endif
                     </div>
 
