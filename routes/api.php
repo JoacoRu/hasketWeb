@@ -20,4 +20,5 @@ Route::get('/countries', 'ApiController@bringCountries');
 Route::get('/username/{username}', 'ApiController@validUsername');
 Route::get('/email/{email}', 'ApiController@validEmail');
 Route::get('/bringPjByUserName/{username}', 'ApiController@bringPjByUserName');
-
+Route::get('/reset/{username}', 'ApiController@reset');
+Route::get('/bringPoints/{username}', 'ApiController@bringPointsOfACharacter');

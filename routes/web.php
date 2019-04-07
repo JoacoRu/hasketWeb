@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/index', 'viewsController@viewHome')->name('index');
-Route::get('/panel', 'viewsController@viewPanelUser');
+Route::get('/panel', 'CharacterController@listCharacters');
 Route::get('/ranking', 'viewsController@viewRanking');
 Route::get('/downloads', 'viewsController@viewDownloads');
 Auth::routes();
