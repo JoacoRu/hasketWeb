@@ -26,17 +26,51 @@ class CharacterController extends Controller
             'sta' => $request->stamina,
             'enr' => $request->energia
         ];
-        $characters = Character::select('Name', 'LevelUpPoint', 'Strength', 'Dexterity', 'Vitality', 'Energy')
+        $character = Character::select('Name', 'LevelUpPoint', 'Strength', 'Dexterity', 'Vitality', 'Energy')
                                 ->where('Name', $username)
                                 ->get();
-
+        $validate = $this->validatePoints($character,  $points);
+        $characters = $this->listCharacters();
+        foreach ($character as $fields ) {
+            $totalStr = intval($fields['Strength']) + intval($points['str']); 
+            $totalAgi = intval($fields['Dexterity']) + intval($points['agi']); 
+            $totalSta = intval($fields['Vitality']) + intval($points['sta']); 
+            $totalEnr = intval($fields['Energy']) + intval($points['enr']); 
+        }
+        if(count($validate) == 0) {
+            Character::where('Name', $username)
+                ->update([
+                    'LevelUpPoint' => $request->puntosRestantes,
+                    'Strength' => $totalStr,
+                    'Dexterity' => $totalAgi,
+                    'Vitality' => $totalSta,
+                    'Energy' => $totalEnr
+                ]);
+            return view('userPanel', compact('characters'));
+        } else {
+            return view('userPanel', compact('validate'));
+        }
     }
 
     public function validatePoints($character, $payload)
-    {
+    {   
         $errors = [];
+        $totalPoints = intval($payload['str']) + intval($payload['agi']) + intval($payload['sta']) +  intval($payload['enr']);
         foreach ($character as $fields) {
-            // Hay que seguir...
+            $pointsRem = intval($totalPoints) - intval($fields['LevelUpPoint']);
+            if(intval($fields['Strength']) + intval($payload['str']) > 65537) {
+                $errors['str'] = 'No puedes superar los 65535';
+            }elseif(intval($fields['Dexterity']) + intval($payload['agi']) > 65537) {
+                $errors['agi'] = 'No puedes superar los 65535';
+            }elseif(intval($fields['Vitality']) + intval($payload['sta']) > 65537) {
+                $errors['sta'] = 'No puedes superar los 65535';
+            }elseif(intval($fields['Energy']) + intval($payload['enr']) > 65537) {
+                $errors['enr'] = 'No puedes superar los 65535';
+            }elseif($totalPoints > intval($fields['LevelUpPoint'])) {
+                $errors['points'] = 'Te faltan'.' '.$pointsRem;
+            }
+
+            return $errors;
         }
     }
 }

@@ -36,7 +36,13 @@
 
                     <div id="msjError" style="display: none;">
                         <div class="alert alert-danger col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                            <strong class="msjErrorContent"></strong>
+                            <strong class="msjErrorContent">
+                                @if(isset($validate))
+                                    @foreach($validate as $msg)
+                                        {{$msg}}
+                                     @endforeach
+                                @endif
+                            </strong>
                         </div>
                     </div>
 
@@ -48,34 +54,13 @@
 
                     <input type="hidden" name="username" value="{{ Auth::user()->username}}">
                     <div class="pjContainer">
-                        @foreach($characters as $character)
-                            @if($character['Active_char'] == 0)
-                                <div class="card" id="card">
-                                    <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
-                                    <div class="container-card">
-                                        <h4><b style="color: #721c24;">{{$character['Name']}}</b></h4>
-                                        <div class="card-info">
-                                            <p>Resets: {{$character['RESETS']}}</p>
-                                            <p>Nivel: {{$character['cLevel']}}</p>
-                                            <p>Master Level: {{$character['mLevel']}}</p>
-                                            <p>Puntos: {{$character['LevelUpPoint']}}</p>
-                                            <p>Nivel Pk: {{$character['PkLevel']}}</p>
-                                            <p class="classPj">characterClass({{$character['Class']}})</p>
-                                        </div>
-                                        <div class="card-buttons">
-                                            <ul class="ul-card">
-                                                <li>Limpiar Pk</li>
-                                                <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
-                                                <li class="addPoints" add="puntero('{{$character['Name']}}')">Añadir puntos</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="card" id="card">
+                        @if(isset($characters))
+                            @foreach($characters as $character)
+                                @if($character['Active_char'] == 0)
+                                    <div class="card" id="card">
                                         <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
                                         <div class="container-card">
-                                            <h4><b style="color: #155724;">{{$character['Name']}}</b></h4>
+                                            <h4><b style="color: #721c24;">{{$character['Name']}}</b></h4>
                                             <div class="card-info">
                                                 <p>Resets: {{$character['RESETS']}}</p>
                                                 <p>Nivel: {{$character['cLevel']}}</p>
@@ -87,18 +72,41 @@
                                             <div class="card-buttons">
                                                 <ul class="ul-card">
                                                     <li>Limpiar Pk</li>
-                                                    <li lala="">Resetear</li>
-                                                    <li add="">Añadir puntos</li>
+                                                    <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
+                                                    <li class="addPoints" add="puntero('{{$character['Name']}}')">Añadir puntos</li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                            @endif
-                        @endforeach
+                                @else
+                                    <div class="card" id="card">
+                                            <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
+                                            <div class="container-card">
+                                                <h4><b style="color: #155724;">{{$character['Name']}}</b></h4>
+                                                <div class="card-info">
+                                                    <p>Resets: {{$character['RESETS']}}</p>
+                                                    <p>Nivel: {{$character['cLevel']}}</p>
+                                                    <p>Master Level: {{$character['mLevel']}}</p>
+                                                    <p>Puntos: {{$character['LevelUpPoint']}}</p>
+                                                    <p>Nivel Pk: {{$character['PkLevel']}}</p>
+                                                    <p class="classPj">characterClass({{$character['Class']}})</p>
+                                                </div>
+                                                <div class="card-buttons">
+                                                    <ul class="ul-card">
+                                                        <li>Limpiar Pk</li>
+                                                        <li lala="">Resetear</li>
+                                                        <li add="">Añadir puntos</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
 
                     <div class="menuAñadirPuntos" style="display: none;">
-                        <form method="put" id="formPoints">
+                        <form method="post" id="formPoints">
                             <div class="puntosContainer">
                                 <input type="hidden" name="usernamePoints">
                                 <input type="hidden" name="pointsAvaiable">
