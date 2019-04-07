@@ -26,6 +26,7 @@ class CharacterController extends Controller
             'sta' => $request->stamina,
             'enr' => $request->energia
         ];
+        $puntosRestantes = intval($request->pointsAvaiable) - intval($request->fuerza) - intval($request->agilidad) - intval($request->stamina) - intval($request->energia);
         $character = Character::select('Name', 'LevelUpPoint', 'Strength', 'Dexterity', 'Vitality', 'Energy')
                                 ->where('Name', $username)
                                 ->get();
@@ -40,7 +41,7 @@ class CharacterController extends Controller
         if(count($validate) == 0) {
             Character::where('Name', $username)
                 ->update([
-                    'LevelUpPoint' => $request->puntosRestantes,
+                    'LevelUpPoint' => $puntosRestantes,
                     'Strength' => $totalStr,
                     'Dexterity' => $totalAgi,
                     'Vitality' => $totalSta,
