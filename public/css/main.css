@@ -814,6 +814,40 @@
   margin-right: 2%;
 }
 
+/* NOTICIAS */
+
+.new {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-content: center;
+}
+
+.newTitle {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 20%;
+}
+
+.newContent {
+  display: flex;
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  background-color: #110c11;
+  height: 300px;
+  border: none;
+  color: white;
+}
+
+
+
 @media (min-width: 414px) {
   .tituloDescripcion p{
     margin-top: 2%;

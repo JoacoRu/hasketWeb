@@ -40,4 +40,9 @@ class viewsController extends Controller
     {
         return view('/passwordChange');
     }
+
+    public function viewNew()
+    {
+        return view('/new');
+    }
 }

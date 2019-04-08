@@ -20,3 +20,4 @@ Route::get('/home', 'HomeController@index');
 Route::post('/panel', 'CharacterController@updatePoints')->middleware('auth');
 Route::get('/recuperar', 'viewsController@viewPass');
 Route::post('/recuperar', 'UserController@resetPassword');
+Route::get('/new', 'viewsController@viewNew');
