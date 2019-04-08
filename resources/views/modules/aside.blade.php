@@ -24,20 +24,20 @@
                 </div>
                 <div class="modulo_renglon">
                     <p class="modulo_parrafo">Cuentas creadas</p>
-                    <p class="modulo_parrafo">3</p>
+                    <p class="modulo_parrafo" id="cuentasCreadas">3</p>
                 </div>
 
                 <div class="modulo_renglon">
                     <p class="modulo_parrafo">Guilds creados</p>
-                    <p class="modulo_parrafo">3</p>
+                    <p class="modulo_parrafo" id="guildsCreados">3</p>
                 </div>
                 <div class="modulo_renglon">
                     <p class="modulo_parrafo">Personajes creados</p>
-                    <p class="modulo_parrafo">9</p>
+                    <p class="modulo_parrafo"id="personajesCreados">9</p>
                 </div>
                 <div class="modulo_renglon">
                     <p class="modulo_parrafo">Conectados</p>
-                    <p class="modulo_parrafo bgcVerde">0</p>
+                    <p class="modulo_parrafo bgcVerde" id="personajesOn">0</p>
                 </div>
             </div>
         </div>
@@ -116,28 +116,7 @@
             <div class="tituloModulo">
                 Top Guild
             </div>
-            <div class="tablaModulo">
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Pepitos Army</p>
-                    <p class="modulo_parrafo">1500</p>
-                </div>
-
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">HiWorld!</p>
-                    <p class="modulo_parrafo">1400</p>
-                </div>
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Algo Loco</p>
-                    <p class="modulo_parrafo">1300</p>
-                </div>
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Tortuguitas Ninja</p>
-                    <p class="modulo_parrafo">1200</p>
-                </div>
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Star Wars</p>
-                    <p class="modulo_parrafo">1100</p>
-                </div>
+            <div class="tablaModulo" id="guildContainer">
             </div>
         </div>
     </aside>
@@ -147,29 +126,90 @@
             <div class="tituloModulo">
                 Top Reset
             </div>
-            <div class="tablaModulo">
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Army</p>
-                    <p class="modulo_parrafo">150</p>
-                </div>
-
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">HiWorld!</p>
-                    <p class="modulo_parrafo">100</p>
-                </div>
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Algo</p>
-                    <p class="modulo_parrafo">90</p>
-                </div>
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Tortuguitas</p>
-                    <p class="modulo_parrafo">80</p>
-                </div>
-                <div class="modulo_renglon modulo_eventos">
-                    <p class="modulo_parrafo">Wars</p>
-                    <p class="modulo_parrafo">70</p>
-                </div>
+            <div class="tablaModulo" id="resetContainer">
             </div>
         </div>
     </aside>
 </div>
+
+<script type="text/javascript">
+    async function bringCountCharacters() {
+        const response = await fetch(`/api/countCharacters`);
+        const json = await response.json();
+        let pjC = document.querySelector('#personajesCreados');
+        pjC.innerHTML = json.message;
+
+    }
+
+    async function bringCountAccount() {
+        const response = await fetch(`/api/countAccounts`);
+        const json = await response.json();
+        let account = document.querySelector('#cuentasCreadas');
+        account.innerHTML = json.message;
+    }
+
+    async function bringCountGuilds() {
+        const response = await fetch(`/api/countGuilds`);
+        const json = await response.json();
+        let guilds = document.querySelector('#guildsCreados');
+        guilds.innerHTML = json.message;
+    }
+
+    async function bringUsersOn() {
+        const response = await fetch(`/api/usersOn`);
+        const json = await response.json();
+        let pjOn = document.querySelector('#personajesOn');
+        pjOn.innerHTML = json.message;
+    }
+
+    async function resetRanking() {
+        const response = await fetch(`/api/resetRanking`);
+        const json = await response.json();
+        let resetContainer = document.querySelector('#resetContainer');
+        let obj = json.message;
+        for (const i in obj) {
+            if (obj.hasOwnProperty(i)) {
+                const element = obj[i];
+                resetContainer.innerHTML += `
+                    <div class="modulo_renglon modulo_eventos">
+                        <p class="modulo_parrafo">${element.Name}</p>
+                        <p class="modulo_parrafo">${element.RESETS}</p>
+                    </div>
+                `
+            }
+        }
+    }
+
+    async function guildRanking() {
+        const response = await fetch(`/api/guildRanking`);
+        const json = await response.json();
+        let guildContainer = document.querySelector('#guildContainer');
+        let obj = json.message;
+        if(Object.keys(obj).length == 0) {
+            guildContainer.innerHTML += `
+                <div class="modulo_renglon modulo_eventos">
+                    No hay guilds creados
+                </div>
+            `
+        } else {
+            for (const i in obj) {
+                if (obj.hasOwnProperty(i)) {
+                    const element = obj[i];
+                    guildContainer.innerHTML += `
+                        <div class="modulo_renglon modulo_eventos">
+                            <p class="modulo_parrafo">${element.G_Name}</p>
+                            <p class="modulo_parrafo">${element.G_Score}</p>
+                        </div>
+                    `
+                }
+            }
+        }
+    }
+    bringCountCharacters();
+    bringCountAccount();
+    bringCountGuilds();
+    bringUsersOn();
+    resetRanking();
+    guildRanking();
+
+</script>

@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use App\Country;
 use App\User;
 use App\Character;
+use App\Guild;
 
 class ApiController extends Controller
 {
@@ -101,7 +102,7 @@ class ApiController extends Controller
     public function doAReset($character)
     {
         
-        $update = Character::where('AccountID', $character['AccountID'])
+        $update = Character::where('Name', $character['Name'])
                    ->update([
                        'Experience' => 0,
                        'cLevel' => 1,
@@ -127,5 +128,106 @@ class ApiController extends Controller
                 'character' => $character
             ]);
         }
+    }
+
+    public function resetStat(Request $request)
+    {
+        $username = $request->username;
+        $characters = Character::select('Name', 'LevelUpPoint', 'Strength', 'Dexterity', 'Vitality', 'Energy')
+                                ->where('Name', $username)
+                                ->get();
+        foreach ($characters as $character) {
+            $pointsRem = intval($character['Strength']) + intval($character['Dexterity']) + intval($character['Vitality']) + intval($character['Energy']);
+        }
+        Character::where('Name', $username)
+                ->update([
+                    'LevelUpPoint' => $pointsRem,
+                    'Strength' => 0,
+                    'Dexterity' => 0,
+                    'Vitality' => 0,
+                    'Energy' => 0
+                ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Puntos reestablecidos'
+        ]);
+    }
+
+    public function bringPjReset()
+    {
+        $characters = Character::select('Name', 'RESETS')
+                                ->get();
+        return response()->json([
+            'status' => 200,
+            'message' => $characters
+        ]);
+    }
+
+    public function countCharacters()
+    {
+        $characters = Character::count();
+
+        return response()->json([
+            'status' => 200,
+            'message' => $characters
+        ]);
+    }
+
+    public function countAccounts()
+    {
+        $users = User::count();
+
+        return response()->json([
+            'status' => 200,
+            'message' => $users
+        ]);
+    }
+
+    public function countGuilds()
+    {
+        $guild = Guild::count();
+
+        return response()->json([
+            'status' => 200,
+            'message' => $guild
+        ]);
+    }
+
+    public function usersOn()
+    {
+        $character = Character::select('Active_char')
+                            ->where('Active_char', 1)
+                            ->count();
+
+        return response()->json([
+            'status' => 200,
+            'message' => $character
+        ]);
+    }
+
+    public function rankingReset()
+    {
+        $character = Character::select('Name', 'RESETS')
+                                ->where('RESETS', '>', 0)
+                                ->orderBy('RESETS', 'desc')
+                                ->limit(5)
+                                ->get();
+        return response()->json([
+            'status' => 200,
+            'message' => $character
+        ]);
+    }
+
+    public function rankingGuild()
+    {
+        $guild = Guild::select('G_Name', 'G_Score')
+                                ->where('G_Score', '>', 0)
+                                ->orderBy('G_Score', 'desc')
+                                ->limit(5)
+                                ->get();
+        return response()->json([
+            'status' => 200,
+            'message' => $guild
+        ]);
     }
 }

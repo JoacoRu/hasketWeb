@@ -35,4 +35,9 @@ class viewsController extends Controller
     {
         return view('/descargas');
     }
+
+    public function viewPass()
+    {
+        return view('/passwordChange');
+    }
 }

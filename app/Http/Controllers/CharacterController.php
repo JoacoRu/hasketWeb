@@ -47,7 +47,7 @@ class CharacterController extends Controller
                     'Vitality' => $totalSta,
                     'Energy' => $totalEnr
                 ]);
-            return view('userPanel', compact('characters'));
+            return $characters;
         } else {
             return view('userPanel', compact('validate'));
         }

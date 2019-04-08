@@ -17,7 +17,7 @@
 
                     <div class="infoContainer">
                         <div class="labelLogin">
-                            <label for="pass">Contraseña</label> <span><a href="#">olvidaste?</a></span>
+                            <label for="pass">Contraseña</label> <span><a href="/recuperar">olvidaste?</a></span>
                         </div>
 
                         <div class="inputLogin">

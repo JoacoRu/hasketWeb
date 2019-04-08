@@ -14,7 +14,6 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Kanit" rel="stylesheet">
-    <!-- SCRIPTS -->
     <title>Hasket Mu - Panel</title>
 </head>
 <body>
@@ -27,13 +26,6 @@
                     <div class="noticiaTitulo">
                         <h4>Panel</h4>
                     </div>
-                    <div class="menuPersonaje">
-                        <ul class="menuPersonajeUl">
-                            <li id="liCharacter"><a id="aCharacter" style="color: white; border-bottom: none;" href="#aCharacter">Personajes</a></li>
-                            <li id="liChangePass"><a id="aChangePass" style="color: white; border-bottom: none;" href="#aCharacter">Cambiar contraseña</a></li>
-                        </ul>
-                    </div>
-
                     <div id="msjError" style="display: none;">
                         <div class="alert alert-danger col-sm-12 col-md-6 col-lg-4 col-xl-4">
                             <strong class="msjErrorContent">
@@ -74,6 +66,7 @@
                                                     <li>Limpiar Pk</li>
                                                     <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
                                                     <li class="addPoints" add="puntero('{{$character['Name']}}')">Añadir puntos</li>
+                                                    <li class="resetPoints" add="resetPointPuntero('{{$character['Name']}}')">Resetear puntos</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -89,13 +82,14 @@
                                                     <p>Master Level: {{$character['mLevel']}}</p>
                                                     <p>Puntos: {{$character['LevelUpPoint']}}</p>
                                                     <p>Nivel Pk: {{$character['PkLevel']}}</p>
-                                                    <p class="classPj">characterClass({{$character['Class']}})</p>
+                                                    <p>characterClass({{$character['Class']}})</p>
                                                 </div>
                                                 <div class="card-buttons">
                                                     <ul class="ul-card">
                                                         <li>Limpiar Pk</li>
                                                         <li lala="">Resetear</li>
                                                         <li add="">Añadir puntos</li>
+                                                        <li>Resetear puntos</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -131,33 +125,6 @@
                             </div>
                         </form>
                     </div>
-                    
-                    <div class="confirmarPass" style="display: none;">
-                        <form method="put" class="formPass">
-                            <div class="infoContainer">
-                                <div class="labelLogin">
-                                    <label for="pass">Contraseña</label>
-                                </div>
-                                <div class="inputLogin">
-                                    <input type="password" name="pass" id="pass">
-                                </div>
-                            </div>
-
-                            <div class="infoContainer">
-                                <div class="labelLogin">
-                                    <label for="re-pass">Confirmación</label>
-                                </div>
-                                <div class="inputLogin">
-                                    <input type="password" name="re-pass" id="re-pass">
-                                </div>
-                            </div>
-
-                            <div class="buttonLogin">
-                                <button type="submit">Cambiar contraseña</button>
-                            </div>
-                        </form>
-                    </div>
-
                 </article>
             </div>
             @include('modules.aside')
@@ -543,9 +510,38 @@
                 addPoints(username);
             }
 
+            async function resetPoints(username) {
+                const response = await fetch(`/api/resetPoints/${username}`);
+                const json = await response.json();
+                let messageContainerSuccess = document.querySelector('#msjSucces');
+                let messageContentSuccess = document.querySelector('.msjSuccesContent');
+                let messageContainerError = document.querySelector('#msjError');
+                messageContainerSuccess.style.display = 'flex';
+                messageContentSuccess.innerHTML = json.message;
+                messageContainerError.style.display = 'none';
+                setInterval(() => {
+                    location.reload();
+                }, 3000);
+            }
+
+            function resetPointPuntero(username) {
+                resetPoints(username);
+            }
+
+            function resetPointOnClick() {
+                let addPoints = document.querySelectorAll('.resetPoints');
+                addPoints.forEach(element => {
+                    let add = element.getAttribute('add');
+                    element.addEventListener('click', function(){
+                        eval(add);
+                    });
+                });
+            }
+
             bringClassNameCharacter();
             bringImage();
             addPointsFunctional();
+            resetPointOnClick();
         }
     </script>
 </body>

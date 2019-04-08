@@ -113,4 +113,41 @@ class UserController extends Controller
             return view('auth.login', compact('errors'));
         };
     }
+
+    public function resetPassword(Request $request)
+    {
+        $username = $request->username;
+        $pregunta = $request->secretQuestion;
+        $respuesta = $request->answerSecret;
+        $pass = $request->pass;
+        $repass = $request->rePass;
+        $errors = [];
+        $users = User::select('memb___id', 'SecretAnswer', 'SecretQuestion')->where('memb___id', $username)
+                    ->get();
+
+        if(count($users) == 0) {
+            $errors['user'] = 'No se encontro ningun usuario';
+        }elseif($pass != $repass) {
+            $errors['pass'] = 'Las contraseñas no coinciden';
+        }
+
+        foreach ($users as $user) {
+            if(intval($user['SecretQuestion']) != intval($pregunta)) {
+                $errors['credenciales'] = 'Credenciales incorrectas';
+            } elseif(strtolower($user['SecretAnswer']) != strtolower($respuesta)) {
+                $errors['credenciales'] = 'Credenciales incorrectas';
+                dd('respuesta');
+            }
+        }
+        if(empty($errors)) {
+            $user = User::where('memb___id', $username)
+                ->update([
+                    'memb__pwd' => $pass
+                ]);
+            return redirect('/index');
+        } else {
+            return view('/passwordChange', compact('errors'));
+        }
+        
+    }
 }
