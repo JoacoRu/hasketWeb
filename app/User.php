@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'memb___id', 'memb__pwd', 'mail_addr', 'SecretAnswer', 'SecretQuestion', 'Country', 'memb_name', 'sno__numb', 'mail_chek', 'bloc_code', 'ctl1_code', 'confirmed', 'Gender', 'Vip', 'InicioVIP', 'FinVIP', 'VipDate', 'VipINF', 'admincp', 'credits', 'credits2', 'm_Grand_Resets', 'mvc_vip_date', 'msponsor_limit', 'smtp_block', 'scrable_wrong', 'scrable_level'
+        'memb___id', 'memb__pwd', 'mail_addr', 'fpas_answ', 'fpas_ques', 'memb_name', 'sno__numb', 'mail_chek', 'bloc_code',  'VipType', 'VipStart', 'VipDays', 'post_code', 'ctl1_code'
     ];
 
     public $timestamps = false;

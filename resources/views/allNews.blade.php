@@ -14,16 +14,7 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Kanit" rel="stylesheet">
-    <!-- SCRIPTS -->
-    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=2r9va7kk5mwxcrpdak501ixc013fuaqjokq5z9ijiongqr8v"></script>
-    <script type="text/javascript">
-        window.onload = function() {
-                tinymce.init({
-                selector: '#mytextarea'
-            });
-        }
-    </script>
-    <title>Hasket Mu - Panel</title>
+    <title>Hasket Mu - Register</title>
 </head>
 <body>
     @include('partials.header')
@@ -31,15 +22,18 @@
         @include('modules.server_info')
         <section class="contentContainer">
             <div class="separator">
-                <article class="userPanelContainer">
-                    <div class="newContent">
-                        <form method="post" style="width: 80%;">
-                            <input type="text" name="titulo" placeholder="titulo">
-                            <textarea name="new" id="mytextarea">
-                            </textarea>
-                            <button type="submit">Enviar</button>
-                        </form>
+                <article class="allNews">
+                    @foreach($news as $new)
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body" id="cardNew">
+                            <h5 class="card-title">{{$new['titulo']}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Autor {{$new['autor']}}</h6>
+                            <div style="width: 100%; display: flex; justify-content: center; align-items:center;">
+                                <a href="oneNew/{{$new['id']}}" class="card-link">Leer</a>
+                            </div>
+                        </div>
                     </div>
+                    @endforeach
                 </article>
             </div>
             @include('modules.aside')
@@ -50,7 +44,8 @@
     <!-- SCRIPTS BOOTSTRAP -->
     @include('partials.scripts_bootstrap')
     <!-- SCRIPTS -->
-    <!-- <script type="text/javascript" src="{{ asset('js/panel.js') }}"></script> -->
-
+    <script src="{{ asset('js/home.js') }}"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
 </body>
 </html>

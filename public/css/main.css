@@ -836,6 +836,7 @@
 .newContent {
   display: flex;
   width: 100%;
+  justify-content: center;
 }
 
 textarea {
@@ -843,6 +844,21 @@ textarea {
   background-color: #110c11;
   height: 300px;
   border: none;
+  color: white;
+}
+
+.allNews {
+  display: flex;
+  padding: 50px;
+  background-color: #110c11;
+  flex-wrap: wrap;
+}
+
+#cardNew {
+  text-align: center;
+}
+
+.noticiaContentId {
   color: white;
 }
 

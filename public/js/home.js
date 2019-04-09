@@ -93,5 +93,30 @@ window.onload = function () {
         });
     }
 
-    newHover();    
+    async function insertDataNews() {
+        let response = await fetch('/api/news');
+        let json = await response.json();
+        let iterator = json.message;
+        for (const i in iterator) {
+            if (iterator.hasOwnProperty(i)) {
+                const element = iterator[i];
+                let leg = Object.keys(iterator).length;
+                let titulo = document.querySelector(`#tituloNoticiaH5_${leg}`);
+                let contenido = document.querySelector(`#tituloDescripcionP_${leg}`);
+                let leerMas = document.querySelector(`#buttonReadA_${leg}`);
+                let noticia = element.noticia;
+                titulo.innerHTML = element.titulo;
+                contenido.innerHTML = element.noticia.substring(1, 240);
+                leerMas.setAttribute('href', `/oneNew/${leg}`);
+                insertDataByNew(leg, element.titulo, noticia, element.id);
+            }
+        }
+    }
+
+    function insertDataByNew(noticia, tit, cont, leer) {
+
+    }
+
+    newHover();
+    insertDataNews();  
 }

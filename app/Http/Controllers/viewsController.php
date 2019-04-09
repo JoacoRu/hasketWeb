@@ -45,4 +45,9 @@ class viewsController extends Controller
     {
         return view('/new');
     }
+
+    public function viewNews()
+    {
+        return view('/allNews');
+    }
 }

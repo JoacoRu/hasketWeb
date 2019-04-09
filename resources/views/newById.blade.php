@@ -14,16 +14,7 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Kanit" rel="stylesheet">
-    <!-- SCRIPTS -->
-    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=2r9va7kk5mwxcrpdak501ixc013fuaqjokq5z9ijiongqr8v"></script>
-    <script type="text/javascript">
-        window.onload = function() {
-                tinymce.init({
-                selector: '#mytextarea'
-            });
-        }
-    </script>
-    <title>Hasket Mu - Panel</title>
+    <title>Hasket Mu - Register</title>
 </head>
 <body>
     @include('partials.header')
@@ -31,15 +22,15 @@
         @include('modules.server_info')
         <section class="contentContainer">
             <div class="separator">
-                <article class="userPanelContainer">
-                    <div class="newContent">
-                        <form method="post" style="width: 80%;">
-                            <input type="text" name="titulo" placeholder="titulo">
-                            <textarea name="new" id="mytextarea">
-                            </textarea>
-                            <button type="submit">Enviar</button>
-                        </form>
-                    </div>
+                <article class="allNews">
+                    @foreach($news as $new)
+                        <div class="newTitle">
+                            <h1>{{$new['titulo']}}</h1>
+                        </div>
+                        <div class="noticiaContentId">
+                            <?= $new->noticia ?>
+                        </div>
+                    @endforeach
                 </article>
             </div>
             @include('modules.aside')
@@ -49,8 +40,5 @@
 
     <!-- SCRIPTS BOOTSTRAP -->
     @include('partials.scripts_bootstrap')
-    <!-- SCRIPTS -->
-    <!-- <script type="text/javascript" src="{{ asset('js/panel.js') }}"></script> -->
-
 </body>
 </html>

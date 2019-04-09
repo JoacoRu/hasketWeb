@@ -6,10 +6,10 @@
         <div class="noticia" id="noticia_1">
             <div class="noticiaContent">
                 <div class="tituloNoticia" id="tituloNoticia_1">
-                    <h5>Titulo</h5>
+                    <h5 id="tituloNoticiaH5_1">Titulo</h5>
                 </div>
                 <div class="tituloDescripcion" id="tituloDescripcion_1">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
+                    <p id="tituloDescripcionP_1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
                 </div>
 
                 <div class="buttonContainerRead">
@@ -20,10 +20,10 @@
 
         <div class="noticia" id="noticia_2">
             <div class="tituloNoticia" id="tituloNoticia_2">
-                <h5>Titulo</h5>
+                <h5 id="tituloNoticiaH5_2">Titulo</h5>
             </div>
             <div class="tituloDescripcion" id="tituloDescripcion_2">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
+                <p id="tituloDescripcionP_2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
             </div>
 
             <div class="buttonContainerRead">
@@ -33,10 +33,10 @@
 
         <div class="noticia" id="noticia_3">
             <div class="tituloNoticia" id="tituloNoticia_3">
-                <h5>Titulo</h5>
+                <h5 id="tituloNoticiaH5_3">Titulo</h5>
             </div>
             <div class="tituloDescripcion" id="tituloDescripcion_3">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
+                <p id="tituloDescripcionP_3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
             </div>
 
             <div class="buttonContainerRead">
@@ -46,11 +46,11 @@
 
         <div class="noticia" id="noticia_4">
             <div class="tituloNoticia" id="tituloNoticia_4">
-                <h5>Titulo</h5>
+                <h5 id="tituloNoticiaH5_4">Titulo</h5>
             </div>
 
             <div class="tituloDescripcion" id="tituloDescripcion_4">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
+                <p id="tituloDescripcionP_4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum accusamus consectetur ipsa harum praesentium dolorum delectus eveniet, optio dolor dolores porro eaque sit, explicabo ex expedita tenetur aperiam ratione magni.</p>
             </div>
 
             <div class="buttonContainerRead">
@@ -59,7 +59,7 @@
         </div>
 
         <div class="leerMasContainer">
-            <button id="leerMasButton"><a id="leerMasA" href="#">Todas las noticias</a></button>
+            <button id="leerMasButton"><a id="leerMasA" href="/news">Todas las noticias</a></button>
         </div>
     </article>
     

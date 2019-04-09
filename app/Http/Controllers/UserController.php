@@ -56,30 +56,14 @@ class UserController extends Controller
             'memb___id' => $request->username,
             'mail_addr' => $request->email,
             'memb__pwd' => $request->pass,
-            'Country' => $request->country,
-            'SecretQuestion' => $request->secretQuestion,
-            'SecretAnswer' => $request->answerSecret,
+            'post_code' => $request->country,
+            'fpas_ques' => $request->secretQuestion,
+            'fpas_answ' => $request->answerSecret,
             'memb_name' => 'default',
             'sno__numb' => 111111,
             'mail_chek' => 1,
             'bloc_code' => 0,
-            'ctl1_code' => 0,
-            'confirmed' => 1,
-            'Gender' => 1,
-            'Vip' => 0,
-            'InicioVIP' => 0,
-            'FinVIP' => 0,
-            'VipDate' => 0,
-            'VipINF' => 0,
-            'admincp' => 0,
-            'credits' => 0,
-            'credits2' => 0,
-            'm_Grand_Resets' => 0,
-            'mvc_vip_date' => 0,
-            'msponsor_limit' => 0,
-            'smtp_block' => 0,
-            'scrable_wrong' => 0,
-            'scrable_level' => 0
+            'ctl1_code' => 0
         ]);
         
         auth()->login($user);
@@ -122,7 +106,7 @@ class UserController extends Controller
         $pass = $request->pass;
         $repass = $request->rePass;
         $errors = [];
-        $users = User::select('memb___id', 'SecretAnswer', 'SecretQuestion')->where('memb___id', $username)
+        $users = User::select('memb___id', 'fpas_answ', 'fpas_ques')->where('memb___id', $username)
                     ->get();
 
         if(count($users) == 0) {
@@ -132,9 +116,9 @@ class UserController extends Controller
         }
 
         foreach ($users as $user) {
-            if(intval($user['SecretQuestion']) != intval($pregunta)) {
+            if(intval($user['fpas_ques']) != intval($pregunta)) {
                 $errors['credenciales'] = 'Credenciales incorrectas';
-            } elseif(strtolower($user['SecretAnswer']) != strtolower($respuesta)) {
+            } elseif(strtolower($user['fpas_answ']) != strtolower($respuesta)) {
                 $errors['credenciales'] = 'Credenciales incorrectas';
                 dd('respuesta');
             }

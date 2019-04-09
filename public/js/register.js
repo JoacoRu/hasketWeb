@@ -189,7 +189,7 @@ window.onload = function () {
             for (const i in countries) {
                 if (countries.hasOwnProperty(i)) {
                     const element = countries[i];
-                    const html = `<option value="${element.numcode}">${element.name}</option>`;
+                    const html = `<option value="${element.CountryID}">${element.CountryName}</option>`;
                     countrySelect.innerHTML += html;
                 }
             }

@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use App\Country;
 use App\User;
+use App\Memb_stat;
 use App\Character;
+use App\Notice;
 use App\Guild;
 
 class ApiController extends Controller
@@ -195,8 +197,8 @@ class ApiController extends Controller
 
     public function usersOn()
     {
-        $character = Character::select('Active_char')
-                            ->where('Active_char', 1)
+        $character = Memb_stat::select('ConnectStat')
+                            ->where('ConnectStat', 1)
                             ->count();
 
         return response()->json([
@@ -228,6 +230,16 @@ class ApiController extends Controller
         return response()->json([
             'status' => 200,
             'message' => $guild
+        ]);
+    }
+
+    public function bringNews()
+    {
+        $new = Notice::take(4)
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'message' => $new
         ]);
     }
 }
