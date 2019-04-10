@@ -22,7 +22,7 @@
         @include('modules.server_info')
         <section class="contentContainer">
             <div class="separator">
-                <article class="downlaods">
+                <article class="downlaods" id="downloadIdWeb">
                     <div class="noticiaTitulo">
                         <h4>Descargas</h4>
                     </div>

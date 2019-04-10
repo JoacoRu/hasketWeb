@@ -22,7 +22,7 @@
         @include('modules.server_info')
         <section class="contentContainer">
             <div class="separator">
-                <article class="allNews">
+                <article class="allNews" id="allNewsIdWeb">
                     @foreach($news as $new)
                         <div class="newTitle">
                             <h1>{{$new['titulo']}}</h1>

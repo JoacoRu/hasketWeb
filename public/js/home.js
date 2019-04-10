@@ -107,7 +107,7 @@ window.onload = function () {
                 let noticia = element.noticia;
                 titulo.innerHTML = element.titulo;
                 contenido.innerHTML = element.noticia.substring(1, 240);
-                leerMas.setAttribute('href', `/oneNew/${leg}`);
+                leerMas.setAttribute('href', `/oneNew/${leg}#allNewsIdWeb`);
                 insertDataByNew(leg, element.titulo, noticia, element.id);
             }
         }

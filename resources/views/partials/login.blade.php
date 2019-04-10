@@ -1,6 +1,6 @@
 <article class="LoginContainer">
     <div class="loginContent">
-        <div class="noticiaTitulo">
+        <div class="noticiaTitulo" id="loginIdWeb">
             <h4>Ingresa</h4>
         </div>
         <div class="formContainer">

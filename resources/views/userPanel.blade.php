@@ -22,7 +22,7 @@
         @include('modules.server_info')
         <section class="contentContainer">
             <div class="separator">
-                <article class="userPanelContainer">
+                <article class="userPanelContainer" id="userPanelIdWeb">
                     <div class="noticiaTitulo">
                         <h4>Panel</h4>
                     </div>
@@ -44,57 +44,32 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="username" value="{{ Auth::user()->username}}">
+                    <input type="hidden" name="username" value="{{ Auth::user()->memb___id }}">
                     <div class="pjContainer">
                         @if(isset($characters))
                             @foreach($characters as $character)
-                                @if($character['Active_char'] == 0)
-                                    <div class="card" id="card">
-                                        <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
-                                        <div class="container-card">
-                                            <h4><b style="color: #721c24;">{{$character['Name']}}</b></h4>
-                                            <div class="card-info">
-                                                <p>Resets: {{$character['RESETS']}}</p>
-                                                <p>Nivel: {{$character['cLevel']}}</p>
-                                                <p>Master Level: {{$character['mLevel']}}</p>
-                                                <p>Puntos: {{$character['LevelUpPoint']}}</p>
-                                                <p>Nivel Pk: {{$character['PkLevel']}}</p>
-                                                <p class="classPj">characterClass({{$character['Class']}})</p>
-                                            </div>
-                                            <div class="card-buttons">
-                                                <ul class="ul-card">
-                                                    <li>Limpiar Pk</li>
-                                                    <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
-                                                    <li class="addPoints" add="puntero('{{$character['Name']}}')">Añadir puntos</li>
-                                                    <li class="resetPoints" add="resetPointPuntero('{{$character['Name']}}')">Resetear puntos</li>
-                                                </ul>
-                                            </div>
+                                <div class="card" id="card">
+                                    <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
+                                    <div class="container-card">
+                                        <h4><b style="color: #721c24;" class="characterUsername">{{$character['Name']}}</b></h4>
+                                        <div class="card-info">
+                                            <p>Resets: {{$character['RESETS']}}</p>
+                                            <p>Nivel: {{$character['cLevel']}}</p>
+                                            <p>Master Level: {{$character['mLevel']}}</p>
+                                            <p>Puntos: {{$character['LevelUpPoint']}}</p>
+                                            <p>Nivel Pk: {{$character['PkLevel']}}</p>
+                                            <p class="classPj">characterClass({{$character['Class']}})</p>
+                                        </div>
+                                        <div class="card-buttons">
+                                            <ul class="ul-card">
+                                                <li>Limpiar Pk</li>
+                                                <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
+                                                <li class="addPoints" add="puntero('{{$character['Name']}}')">Añadir puntos</li>
+                                                <li class="resetPoints" add="resetPointPuntero('{{$character['Name']}}')">Resetear puntos</li>
+                                            </ul>
                                         </div>
                                     </div>
-                                @else
-                                    <div class="card" id="card">
-                                            <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
-                                            <div class="container-card">
-                                                <h4><b style="color: #155724;">{{$character['Name']}}</b></h4>
-                                                <div class="card-info">
-                                                    <p>Resets: {{$character['RESETS']}}</p>
-                                                    <p>Nivel: {{$character['cLevel']}}</p>
-                                                    <p>Master Level: {{$character['mLevel']}}</p>
-                                                    <p>Puntos: {{$character['LevelUpPoint']}}</p>
-                                                    <p>Nivel Pk: {{$character['PkLevel']}}</p>
-                                                    <p>characterClass({{$character['Class']}})</p>
-                                                </div>
-                                                <div class="card-buttons">
-                                                    <ul class="ul-card">
-                                                        <li>Limpiar Pk</li>
-                                                        <li lala="">Resetear</li>
-                                                        <li add="">Añadir puntos</li>
-                                                        <li>Resetear puntos</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                @endif
+                                </div>
                             @endforeach
                         @endif
                     </div>
@@ -239,6 +214,14 @@
                     case 122:
                         answer = 'Clase: Grow Lancer';
                         break;
+
+                    case 114:
+                        answer = 'Clase: Mirage Lancer';
+                        break;
+
+                    case 112:
+                        answer = 'Clase: Blade Master';
+                        break;
                 
                     default:
                         answer = 'Clase: Undefined';
@@ -298,7 +281,6 @@
 
             function characterImage(numb) {
                 let answer = '';
-
                 switch (numb) {
                     case 0:
                         answer = 'images/personajes/sm.png';
@@ -321,6 +303,10 @@
                         break;
 
                     case 18:
+                        answer = 'images/personajes/bk.png';
+                        break;
+
+                    case 112:
                         answer = 'images/personajes/bk.png';
                         break;
 
@@ -385,6 +371,10 @@
                         break;
 
                     case 122:
+                        answer = 'images/personajes/grow_lancer.png';
+                        break;
+
+                    case 114:
                         answer = 'images/personajes/grow_lancer.png';
                         break;
                 }
@@ -538,6 +528,39 @@
                 });
             }
 
+            async function isOnline(){
+                let username = document.querySelector('input[name="username"]');
+                let user = username.value;
+                const response = await fetch(`/api/userOn/${user}`);
+                const json = await response.json();
+                    changeStyle('reset', 'lala', json[0].ConnectStat);
+                    changeStyle('addPoints', 'add', json[0].ConnectStat);
+                    changeStyle('resetPoints', 'add', json[0].ConnectStat);
+
+            }
+
+            function changeStyle(classs, att, state) {
+                let ele = document.querySelectorAll(`.${classs}`);
+                let user = document.querySelectorAll('.characterUsername');
+                if(state == 0) {
+                    user.forEach(element => {
+                        element.style.color = '#721c24';
+                    });
+                } else {
+                    ele.forEach(item => {
+                        item.setAttribute(att, 'message()');
+                    });
+                    user.forEach(element => {
+                        element.style.color = '#333';
+                    });
+                }
+            }
+
+            function message() {
+                return alert('Debes desconectarte para acceder a estas funciones');
+            }
+
+            isOnline();
             bringClassNameCharacter();
             bringImage();
             addPointsFunctional();

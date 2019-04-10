@@ -11,6 +11,7 @@ use App\Memb_stat;
 use App\Character;
 use App\Notice;
 use App\Guild;
+use App\Gen;
 
 class ApiController extends Controller
 {
@@ -209,7 +210,7 @@ class ApiController extends Controller
 
     public function rankingReset()
     {
-        $character = Character::select('Name', 'RESETS')
+        $character = Character::select('Name', 'RESETS', 'Class')
                                 ->where('RESETS', '>', 0)
                                 ->orderBy('RESETS', 'desc')
                                 ->limit(5)
@@ -222,7 +223,7 @@ class ApiController extends Controller
 
     public function rankingGuild()
     {
-        $guild = Guild::select('G_Name', 'G_Score')
+        $guild = Guild::select('G_Name', 'G_Score', 'G_Master')
                                 ->where('G_Score', '>', 0)
                                 ->orderBy('G_Score', 'desc')
                                 ->limit(5)
@@ -241,5 +242,35 @@ class ApiController extends Controller
             'status' => 200,
             'message' => $new
         ]);
+    }
+
+    public function userOn(Request $request)
+    {
+        $username = $request->username;
+        $memb = Memb_stat::select('memb___id', 'ConnectStat')
+                        ->where('memb___id', $username)
+                        ->get();
+        $estado = $memb[0]['ConnectStat'];
+        if(count($memb) == 0) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'not found'
+            ]);
+        } else {
+            return response()->json($memb);
+        }
+    }
+
+    public function rankingGens()
+    {
+        $gen = Gen::select('Name', 'Class', 'Points')
+                    ->where('Points', '>', 0)
+                    ->orderBy('Points', 'desc')
+                    ->limit(5)
+                    ->get();
+        return response()->json([
+                                'status' => 200,
+                                'message' => $gen
+                            ]);
     }
 }

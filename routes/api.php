@@ -29,4 +29,6 @@ Route::get('/countGuilds', 'ApiController@countGuilds');
 Route::get('/usersOn', 'ApiController@usersOn');
 Route::get('/resetRanking', 'ApiController@rankingReset');
 Route::get('/guildRanking', 'ApiController@rankingGuild');
+Route::get('/genRanking', 'ApiController@rankingGens');
 Route::get('/news', 'ApiController@bringNews');
+Route::get('/userOn/{username}', 'ApiController@userOn');

@@ -12,6 +12,9 @@
 */
 
 /* VISTAS */
+Route::get('/', function(){
+    redirect('/index');
+});
 Route::get('/index', 'viewsController@viewHome')->name('index');
 Route::get('/ranking', 'viewsController@viewRanking');
 Route::get('/downloads', 'viewsController@viewDownloads');
