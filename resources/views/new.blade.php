@@ -23,7 +23,7 @@
             });
         }
     </script>
-    <title>Hasket Mu - Panel</title>
+    <title>Hasket Mu - Noticias</title>
 </head>
 <body>
     @include('partials.header')

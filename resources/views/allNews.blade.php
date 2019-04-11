@@ -14,7 +14,7 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Kanit" rel="stylesheet">
-    <title>Hasket Mu - Register</title>
+    <title>Hasket Mu - News</title>
 </head>
 <body>
     @include('partials.header')
@@ -24,15 +24,15 @@
             <div class="separator">
                 <article class="allNews" id="allNewsIdWeb">
                     @foreach($news as $new)
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body" id="cardNew">
-                            <h5 class="card-title">{{$new['titulo']}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor {{$new['autor']}}</h6>
-                            <div style="width: 100%; display: flex; justify-content: center; align-items:center;">
-                                <a href="oneNew/{{$new['id']}}" class="card-link">Leer</a>
+                        <div class="card" style="width: 18rem; background-color: #34495E;">
+                            <div class="card-body" id="cardNew">
+                                <h5 class="card-title">{{$new['titulo']}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Autor {{$new['autor']}}</h6>
+                                <div style="width: 100%; display: flex; justify-content: center; align-items:center;">
+                                    <a href="oneNew/{{$new['id']}}" class="card-link">Leer</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </article>
             </div>
@@ -40,12 +40,7 @@
         </section>
         @include('partials.footer')
     </section>
-
     <!-- SCRIPTS BOOTSTRAP -->
     @include('partials.scripts_bootstrap')
-    <!-- SCRIPTS -->
-    <script src="{{ asset('js/home.js') }}"></script>
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
 </body>
 </html>

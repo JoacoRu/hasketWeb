@@ -33,11 +33,12 @@
                     </div>
 
                     <div class="rankingTable">
-                        <div class="guildContainer" style="display: none;">
-
-                            <div class="guildRow">
-                            </div>
-                        </div>
+                        <table class="rwd-table" >
+                            <tr class="tittleRanking">
+                            </tr>
+                            <tr class="contentRanking">
+                            </tr>
+                        </table>
                     </div>
                 </article>
             </div>
@@ -82,16 +83,18 @@
         }
 
         async function displayRanking(ranking, titulo) {
-            let container = document.querySelector('.guildContainer');
+            let container = document.querySelector('.rwd-table');
+            let titulo = document.querySelector('.tittleRanking');
+            let content = document.querySelector('.contentRanking');
             container.style.display = 'flex';
             if(ranking == 'guild') {
                 let json = await bringRankingGuild();
                 let message = json.message;
-                container.innerHTML = 
+                titulo.innerHTML = 
                 `
-                    <div id="guildTittleRanking">
-                        <p>${titulo[0]}</p> <p>${titulo[1]}</p> <p>${titulo[2]}</p>
-                    </div>
+                    <th>${titulo[0]}</th>
+                    <th>${titulo[1]}</th>
+                    <th>${titulo[2]}</th>
                 `;
                 if(Object.keys(json.message).length == 0 ) {
                     container.innerHTML = '';
@@ -100,11 +103,13 @@
                     for (const i in message) {
                         if (message.hasOwnProperty(i)) {
                             const element = message[i];
-                            container.innerHTML += 
+                            content.innerHTML += 
                             `
-                                    <div class="guildRow">
-                                        <p>${element.G_Name}</p> <p>${element.G_Master}</p> <p>${element.G_Score}</p>
-                                    </div>
+                                <tr class="contentRanking">
+                                    <td data-th="${titulo[0]}">${element.G_Name}</td>
+                                    <td data-th="${titulo[1]}">${element.G_Master}</td>
+                                    <td data-th="${titulo[2]}">${element.G_Score}</td>
+                                </tr>
                             `;
                             
                         }
@@ -113,45 +118,51 @@
             } else if (ranking == 'reset') {
                 let json = await bringRankingCharacter();
                 let message = json.message;
-                container.innerHTML = '';
-                container.innerHTML = 
+                titulo.innerHTML = '';
+                content.innerHTML = '';
+                titulo.innerHTML = 
                 `
-                    <div id="guildTittleRanking">
-                    <p>${titulo[0]}</p> <p>${titulo[1]}</p> <p>${titulo[2]}</p>
-                    </div>
+                        <th>${titulo[0]}</th>
+                        <th>${titulo[1]}</th>
+                        <th>${titulo[2]}</th>
                 `;
                 for (const i in message) {
                     if (message.hasOwnProperty(i)) {
                         const element = message[i];
-                        console.log(element.Class);
                         let clase = classCharacter(parseInt(element.Class));
-                        container.innerHTML += 
+                        content.innerHTML += 
                             `
-                                <div class="guildRow">
-                                    <p>${element.Name}</p> <p>${clase}</p> <p>${element.RESETS}</p>
-                                </div>
+                                <tr class="contentRanking">
+                                    <td data-th="${titulo[0]}">${element.Name}</td>
+                                    <td data-th="${titulo[1]}">${clase}</td>
+                                    <td data-th="${titulo[2]}">$${element.RESETS}</td>
+                                </tr>
                             `;
                     }
                 }
             } else if (ranking == 'gen') {
                 let json = await bringRankingGen();
                 let message = json.message;
-                container.innerHTML = '';
-                container.innerHTML = 
-                `
-                    <div id="guildTittleRanking">
-                    <p>${titulo[0]}</p> <p>${titulo[1]}</p> <p>${titulo[2]}</p>
-                    </div>
-                `;
+                titulo.innerHTML = '';
+                content.innerHTML = '';
+                titulo.innerHTML = 
+                    `
+                        <th>${titulo[0]}</th>
+                        <th>${titulo[1]}</th>
+                        <th>${titulo[2]}</th>
+                    `;
                 for (const i in message) {
                     if (message.hasOwnProperty(i)) {
                         const element = message[i];
-                        container.innerHTML += 
-                        `
-                            <div class="guildRow">
-                                <p>${element.Name}</p> <p>${element.Class}</p> <p>${element.Points}</p>
-                            </div>                        
-                        `;
+                        content.innerHTML += 
+                            `
+
+                                <tr class="contentRanking">
+                                    <td data-th="${titulo[0]}">${element.Name}</td>
+                                    <td data-th="${titulo[1]}">${element.Class}</td>
+                                    <td data-th="${titulo[2]}">${element.Points}</td>
+                                </tr>                     
+                            `;
                     }
                 }
             }
@@ -283,5 +294,84 @@
 
         menuIterative();
     </script>
+    <style>
+        @import "https://fonts.googleapis.com/css?family=Montserrat:300,400,700";
+        .rwd-table {
+            margin: 1em 0;
+            min-width: 300px;
+        }
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+        .rwd-table th {
+            display: none;
+        }
+        .rwd-table td {
+            display: block;
+        }
+        .rwd-table td:first-child {
+            padding-top: .5em;
+        }
+        .rwd-table td:last-child {
+            padding-bottom: .5em;
+        }
+        .rwd-table td:before {
+            content: attr(data-th) ": ";
+            font-weight: bold;
+            width: 6.5em;
+            display: inline-block;
+        }
+
+        @media (min-width: 480px) {
+            .rwd-table td:before {
+                display: none;
+            }
+
+            .rwd-table th, .rwd-table td {
+            text-align: left;
+            }
+
+            .rwd-table th, .rwd-table td {
+                display: table-cell;
+                padding: .25em .5em;
+            }
+
+            .rwd-table th:first-child, .rwd-table td:first-child {
+                padding-left: 0;
+            }
+
+            .rwd-table th:last-child, .rwd-table td:last-child {
+                padding-right: 0;
+            }
+
+            .rwd-table th, .rwd-table td {
+                padding: 1em !important;
+            }
+        }
+
+        h1 {
+            font-weight: normal;
+            letter-spacing: -1px;
+            color: #34495E;
+        }
+
+        .rwd-table {
+            background: #34495E;
+            color: #fff;
+            border-radius: .4em;
+            overflow: hidden;
+        }
+        .rwd-table tr {
+            border-color: #46637f;
+        }
+        .rwd-table th, .rwd-table td {
+            margin: .5em 1em;
+        }
+        
+        .rwd-table th, .rwd-table td:before {
+            color: #dd5;
+        }
+    </style>
 </body>
 </html>

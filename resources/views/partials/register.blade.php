@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="inputLogin">
-                        <input type="text" name="username" id="username">
+                        <input type="text" name="username" id="username" value="{{ old('username') }}">
                     </div>
 
                     <span class="js-block text-danger" style="display: none;" id="accountError">
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="inputLogin">
-                        <input type="text" name="email" id="email">
+                        <input type="text" name="email" id="email" value="{{ old('email') }}">
                     </div>
 
                     <span class="help-block text-danger" style="display: none;" id="emailError">
@@ -125,7 +125,7 @@
                         @endif
                         
                         <div class="inputLogin">
-                            <input type="text" name="answerSecret" id="answerSecret" placeholder="Respuesta secreta">
+                            <input type="text" name="answerSecret" id="answerSecret"  value="{{ old('answerSecret') }}" placeholder="Respuesta secreta">
                         </div>
 
                         <span class="help-block text-danger" style="display: none;" id="answerSecretError">

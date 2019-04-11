@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="inputLogin">
-                        <input type="text" name="username" id="username">
+                        <input type="text" name="username" id="username" value="{{ old('username') }}">
                     </div>
                 </div>
 

@@ -14,7 +14,7 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed|Kanit" rel="stylesheet">
-    <title>Hasket Mu - Home</title>
+    <title>Hasket Mu - Login</title>
 </head>
 <body>
     @include('partials.header')
