@@ -17,17 +17,19 @@ Route::get('/', function(){
 });
 Route::get('/index', 'viewsController@viewHome')->name('index');
 Route::get('/ranking', 'viewsController@viewRanking');
-Route::get('/downloads', 'viewsController@viewDownloads');
+Route::get('/downloads', 'viewsController@viewDownloads')->middleware('auth');
 Route::get('/recuperar', 'viewsController@viewPass');
 Route::get('/panel', 'CharacterController@listCharacters')->middleware('auth');
 Route::get('/new', 'viewsController@viewNew');
+Route::get('/donations', 'viewsController@viewDonations');
 
 
 Auth::routes();
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout')->middleware('auth');
 Route::get('/home', 'HomeController@index');
 Route::get('/news', 'NoticeController@list');   
 Route::get('/oneNew/{id}', 'NoticeController@byId');
 Route::post('/panel', 'CharacterController@updatePoints')->middleware('auth');
 Route::post('/recuperar', 'UserController@resetPassword');
 Route::post('/new', 'NoticeController@store');
+Route::post('/paypal', 'PaypalController@payWithPaypal');

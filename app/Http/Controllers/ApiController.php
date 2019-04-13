@@ -133,6 +133,25 @@ class ApiController extends Controller
         }
     }
 
+    public function bringPointsDl($username)
+    {
+        $character = Character::select('Name', 'LevelUpPoint', 'Strength', 'Dexterity', 'Vitality', 'Energy', 'Leadership')
+                        ->where('Name', $username)
+                        ->get();
+        $toArray = $character->toArray();
+        if(count($toArray) == 0) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No se encontro ningun usuario'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'character' => $character
+            ]);
+        }
+    }
+
     public function resetStat(Request $request)
     {
         $username = $request->username;
@@ -140,7 +159,7 @@ class ApiController extends Controller
                                 ->where('Name', $username)
                                 ->get();
         foreach ($characters as $character) {
-            $pointsRem = intval($character['Strength']) + intval($character['Dexterity']) + intval($character['Vitality']) + intval($character['Energy']);
+            $pointsRem = intval($character['Strength']) + intval($character['Dexterity']) + intval($character['Vitality']) + intval($character['Energy']) + intval($character['LevelUpPoint']);
         }
         Character::where('Name', $username)
                 ->update([
@@ -149,6 +168,30 @@ class ApiController extends Controller
                     'Dexterity' => 0,
                     'Vitality' => 0,
                     'Energy' => 0
+                ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Puntos reestablecidos'
+        ]);
+    }
+
+    public function resetStatDl(Request $request)
+    {
+        $username = $request->username;
+        $characters = Character::select('Name', 'LevelUpPoint', 'Strength', 'Dexterity', 'Vitality', 'Energy', 'Leadership')
+                                ->where('Name', $username)
+                                ->get();
+        foreach ($characters as $character) {
+            $pointsRem = intval($character['Strength']) + intval($character['Dexterity']) + intval($character['Vitality']) + intval($character['Energy']) + intval($character['Leadership'])  + intval($character['LevelUpPoint']);
+        }
+        Character::where('Name', $username)
+                ->update([
+                    'LevelUpPoint' => $pointsRem,
+                    'Strength' => 0,
+                    'Dexterity' => 0,
+                    'Vitality' => 0,
+                    'Energy' => 0,
+                    'Leadership' => 0
                 ]);
         return response()->json([
             'status' => 200,
@@ -189,7 +232,6 @@ class ApiController extends Controller
     public function countGuilds()
     {
         $guild = Guild::count();
-
         return response()->json([
             'status' => 200,
             'message' => $guild

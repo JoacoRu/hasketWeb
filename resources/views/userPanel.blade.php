@@ -64,8 +64,8 @@
                                             <ul class="ul-card">
                                                 <li>Limpiar Pk</li>
                                                 <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
-                                                <li class="addPoints" add="puntero('{{$character['Name']}}')">Añadir puntos</li>
-                                                <li class="resetPoints" add="resetPointPuntero('{{$character['Name']}}')">Resetear puntos</li>
+                                                <li class="addPoints" add="puntero('{{$character['Name']}}', {{$character['Class']}})">Añadir puntos</li>
+                                                <li class="resetPoints" add="resetPointPuntero('{{$character['Name']}}', {{$character['Class']}})">Resetear puntos</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -93,6 +93,10 @@
                                 </div>
                                 <div class="addPointsContainer">
                                     <p id="enr"></p> <input type="number" name="energia">
+                                </div>
+
+                                <div class="addPointsContainer" style="display:none;" id="dlContainer">
+                                    <p id="comando"></p> <input type="number" name="cmd" id="cmd" disabled="true">
                                 </div>
                                 <div class="addPointsButton">
                                     <button type="submit">Agregar puntos</button>
@@ -382,7 +386,7 @@
                 return answer;
             }
 
-            async function addPoints(username) {
+            async function addPoints(username, clase) {
                 let pjContainer = document.querySelector('.pjContainer');
                 let puntosContainer = document.querySelector('.menuAñadirPuntos');
                 let usernameInput = document.querySelector('input[name="usernamePoints"]');
@@ -392,22 +396,64 @@
                 let agilidad = document.querySelector('#agi');
                 let stamina = document.querySelector('#sta');
                 let energia = document.querySelector('#enr');
-                let payload = await bringPointsByUserName(username);
-                let obj = payload.character[0];  
+                let cmd = document.querySelector('#cmd');
+                let comando = document.querySelector('#comando');
+                let cmdContainer = document.querySelector('#dlContainer');
                 pjContainer.style.display = 'none';
                 puntosContainer.style.display = 'flex';
-                usernameInput.value = obj.Name.toString();
-                pointsInput.value = parseInt(obj.LevelUpPoint);
-                puntos.innerHTML = `Puntos disponibles: ${obj.LevelUpPoint}`;
-                str.innerHTML = `Fuerza: ${obj.Strength}`;
-                agi.innerHTML = `Agilidad: ${obj.Dexterity}`;
-                sta.innerHTML = `Stamina: ${obj.Vitality}`;
-                enr.innerHTML = `Energia: ${obj.Energy}`;
+                if(isDl(clase) == 1) {
+                    cmdContainer.style.display = 'flex';
+                    cmd.removeAttribute('disabled');
+                    let payload = await bringPointsDl(username);
+                    let obj = payload.character[0];
+                    usernameInput.value = obj.Name.toString();
+                    pointsInput.value = parseInt(obj.LevelUpPoint);
+                    puntos.innerHTML = `Puntos disponibles: ${obj.LevelUpPoint}`;
+                    str.innerHTML = `Fuerza: ${obj.Strength}`;
+                    agi.innerHTML = `Agilidad: ${obj.Dexterity}`;
+                    sta.innerHTML = `Stamina: ${obj.Vitality}`;
+                    enr.innerHTML = `Energia: ${obj.Energy}`;  
+                    comando.innerHTML = `Comando: ${obj.Leadership}`;  
+                } else {
+                    let payload = await bringPointsByUserName(username);
+                    let obj = payload.character[0];  
+                    usernameInput.value = obj.Name.toString();
+                    pointsInput.value = parseInt(obj.LevelUpPoint);
+                    puntos.innerHTML = `Puntos disponibles: ${obj.LevelUpPoint}`;
+                    str.innerHTML = `Fuerza: ${obj.Strength}`;
+                    agi.innerHTML = `Agilidad: ${obj.Dexterity}`;
+                    sta.innerHTML = `Stamina: ${obj.Vitality}`;
+                    enr.innerHTML = `Energia: ${obj.Energy}`;
+                }
                 validPoints();
+                function isDl(numb) {
+                    let answer = 0;
+                    switch (numb) {
+                        case 64:
+                            answer = 1;
+                            break;
+
+                        case 66:
+                            answer = 1;
+                            break;
+
+                        case 65:
+                            answer = 1;
+                            break;
+                        
+                        default:
+                            answer = 0;
+                            break;
+                    }
+                    return answer;
+                }
             }
 
-            function validPoints() {
-                
+            async function bringPointsDl(username) {
+                let response = await fetch(`/api/bringPointsDl/${username}`);
+                let json = await response.json();
+
+                return json;
             }
 
             function messagesPoints(obj) {
@@ -496,8 +542,8 @@
                 });
             }
 
-            function puntero(username) {
-                addPoints(username);
+            function puntero(username, clase) {
+                addPoints(username, clase);
             }
 
             async function resetPoints(username) {
@@ -514,8 +560,48 @@
                 }, 3000);
             }
 
-            function resetPointPuntero(username) {
-                resetPoints(username);
+            async function resetPointsDl(username) {
+                const response = await fetch(`/api/resetPointsDl/${username}`);
+                const json = await response.json();
+                let messageContainerSuccess = document.querySelector('#msjSucces');
+                let messageContentSuccess = document.querySelector('.msjSuccesContent');
+                let messageContainerError = document.querySelector('#msjError');
+                messageContainerSuccess.style.display = 'flex';
+                messageContentSuccess.innerHTML = json.message;
+                messageContainerError.style.display = 'none';
+                setInterval(() => {
+                    location.reload();
+                }, 3000);
+            }
+
+            function resetPointPuntero(username, clase) {
+                if(isDl(clase) == 1) {
+                    resetPointsDl(username);
+                } else {
+                    resetPoints(username);
+                }
+
+                function isDl(numb) {
+                    let answer = 0;
+                    switch (numb) {
+                        case 64:
+                            answer = 1;
+                            break;
+
+                        case 66:
+                            answer = 1;
+                            break;
+
+                        case 65:
+                            answer = 1;
+                            break;
+                        
+                        default:
+                            answer = 0;
+                            break;
+                    }
+                    return answer;
+                }
             }
 
             function resetPointOnClick() {

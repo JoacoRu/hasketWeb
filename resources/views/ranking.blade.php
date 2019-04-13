@@ -33,10 +33,11 @@
                     </div>
 
                     <div class="rankingTable">
-                        <table class="rwd-table" >
+                        <table class="rwd-table" style="display: hidden;">
                             <tr class="tittleRanking">
                             </tr>
                             <tr class="contentRanking">
+                                
                             </tr>
                         </table>
                     </div>
@@ -84,26 +85,31 @@
 
         async function displayRanking(ranking, titulo) {
             let container = document.querySelector('.rwd-table');
-            let titulo = document.querySelector('.tittleRanking');
+            let title = document.querySelector('.tittleRanking');
             let content = document.querySelector('.contentRanking');
-            container.style.display = 'flex';
+            container.style.display = 'initial !important';
+            console.log(container.style);
             if(ranking == 'guild') {
+                container.innerHTML = ' ';
+                content.innerHTML = ' ';
                 let json = await bringRankingGuild();
                 let message = json.message;
-                titulo.innerHTML = 
+                container.innerHTML = 
                 `
-                    <th>${titulo[0]}</th>
-                    <th>${titulo[1]}</th>
-                    <th>${titulo[2]}</th>
+                    <tr class="tittleRanking">
+                        <th>${titulo[0]}</th>
+                        <th>${titulo[1]}</th>
+                        <th>${titulo[2]}</th>
+                    </tr>                
                 `;
                 if(Object.keys(json.message).length == 0 ) {
                     container.innerHTML = '';
-                    container.innerHTML += '<p>No hay guilds creados todavia</p>';
+                    container.innerHTML += '<p style="font-weigth: bold;">No hay guilds  con socore todavia</p>';
                 } else {
                     for (const i in message) {
                         if (message.hasOwnProperty(i)) {
                             const element = message[i];
-                            content.innerHTML += 
+                            container.innerHTML += 
                             `
                                 <tr class="contentRanking">
                                     <td data-th="${titulo[0]}">${element.G_Name}</td>
@@ -118,24 +124,25 @@
             } else if (ranking == 'reset') {
                 let json = await bringRankingCharacter();
                 let message = json.message;
-                titulo.innerHTML = '';
-                content.innerHTML = '';
-                titulo.innerHTML = 
+                container.innerHTML = '';
+                container.innerHTML = 
                 `
+                    <tr class="tittleRanking">
                         <th>${titulo[0]}</th>
                         <th>${titulo[1]}</th>
                         <th>${titulo[2]}</th>
+                    </tr>  
                 `;
                 for (const i in message) {
                     if (message.hasOwnProperty(i)) {
                         const element = message[i];
                         let clase = classCharacter(parseInt(element.Class));
-                        content.innerHTML += 
+                        container.innerHTML += 
                             `
                                 <tr class="contentRanking">
                                     <td data-th="${titulo[0]}">${element.Name}</td>
                                     <td data-th="${titulo[1]}">${clase}</td>
-                                    <td data-th="${titulo[2]}">$${element.RESETS}</td>
+                                    <td data-th="${titulo[2]}">${element.RESETS}</td>
                                 </tr>
                             `;
                     }
@@ -143,18 +150,20 @@
             } else if (ranking == 'gen') {
                 let json = await bringRankingGen();
                 let message = json.message;
-                titulo.innerHTML = '';
+                title.innerHTML = '';
                 content.innerHTML = '';
-                titulo.innerHTML = 
+                title.innerHTML = 
                     `
-                        <th>${titulo[0]}</th>
-                        <th>${titulo[1]}</th>
-                        <th>${titulo[2]}</th>
+                        <tr class="tittleRanking">
+                            <th>${titulo[0]}</th>
+                            <th>${titulo[1]}</th>
+                            <th>${titulo[2]}</th>
+                        </tr>  
                     `;
                 for (const i in message) {
                     if (message.hasOwnProperty(i)) {
                         const element = message[i];
-                        content.innerHTML += 
+                        container.innerHTML += 
                             `
 
                                 <tr class="contentRanking">
@@ -300,10 +309,6 @@
             margin: 1em 0;
             min-width: 300px;
         }
-        .rwd-table tr {
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-        }
         .rwd-table th {
             display: none;
         }
@@ -357,13 +362,11 @@
         }
 
         .rwd-table {
-            background: #34495E;
             color: #fff;
             border-radius: .4em;
             overflow: hidden;
         }
         .rwd-table tr {
-            border-color: #46637f;
         }
         .rwd-table th, .rwd-table td {
             margin: .5em 1em;
@@ -372,6 +375,28 @@
         .rwd-table th, .rwd-table td:before {
             color: #dd5;
         }
+
+        .tittleRanking {
+            background-color: #cc0000;
+            margin-bottom: 2px;
+        }
+
+        .tittleRanking th {
+            color: white;
+            text-align: center;
+            border: none !important;
+        }
+
+        .contentRanking {
+            background-color: #333 !important;
+        }
+
+        .contentRanking td {
+            color: #ECEBF3;
+            text-align: center;
+            font-weight: bold;
+        }
+
     </style>
 </body>
 </html>

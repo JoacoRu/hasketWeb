@@ -50,4 +50,9 @@ class viewsController extends Controller
     {
         return view('/allNews');
     }
+
+    public function viewDonations()
+    {
+        return view('/donations');
+    }
 }
