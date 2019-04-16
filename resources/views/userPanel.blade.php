@@ -48,7 +48,7 @@
                     <div class="pjContainer">
                         @if(isset($characters))
                             @foreach($characters as $character)
-                                <div class="card" id="card">
+                                <div class="card" id="card" style="border:none; !important">
                                     <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
                                     <div class="container-card">
                                         <h4><b style="color: #721c24;" class="characterUsername">{{$character['Name']}}</b></h4>
