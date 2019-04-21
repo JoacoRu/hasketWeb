@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 .container-fluid{
     display: flex;
     justify-content: center;
@@ -98,6 +106,22 @@
   opacity: 1;
 }
 
+.botonesServerInfoLi a {
+  color: white;
+  border: none;
+  text-decoration: none;
+}
+
+.botonesServerInfoLi a:hover {
+  color: white;
+  border: none;
+  text-decoration: none;
+}
+
+.botonesServerInfoLi a:visited {
+  color: white;
+}
+
 /* NOTICIAS */
 
 .contentContainer {
@@ -121,6 +145,7 @@
     width: 100%;
     justify-content: flex-start;
     margin-top: 2%;
+    margin-bottom: 2%;
     border-bottom: 2px solid #cc0000;
 }
 
@@ -862,7 +887,58 @@ textarea {
   color: white;
 }
 
+/* DONACIONES */
 
+.donationsContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #110c11;
+  width: 100%;
+}
+
+.productsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#donations {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#donations select {
+  margin-bottom: 2%;
+  border-radius: 5px;
+  border: 1px solid #e6e6e6;
+  background-color: #f7f7f7;
+  color: #333;
+  font-weight: bold;
+}
+
+#donations select:hover {
+  border: 2px solid #028090;
+  outline:0px;
+}
+
+#donations button {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #333;
+  color: white;
+  line-height: 1.2;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+}
+
+#donations button:focus {
+  background-color: #028090;
+  color: #333;
+  transition-duration: 2s;
+  outline: 0px;
+}
 
 @media (min-width: 414px) {
   .tituloDescripcion p{
@@ -888,6 +964,17 @@ textarea {
 
   .LoginContainer {
     padding: 0px;
+  }
+
+  .productsContainer {
+    flex-direction: row;
+    padding: 20px;
+    justify-content: center;
+  }
+
+  #cardDonation {
+    margin-right: 1%;
+    margin-left: 1%;
   }
 }
 

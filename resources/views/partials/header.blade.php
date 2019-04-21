@@ -5,7 +5,7 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <div class="logoMenuBurguer"><h3>HASKET MU</h3></div>
+                <div class="logoMenuBurguer"> <a href="/index"><h3>HASKET MU</h3></a></div>
                 <a class="dropdown-item" href="/downloads#downloadIdWeb">DESCARGAS</a>
                 <a class="dropdown-item" href="/ranking#rankingIdWeb">RANKING</a>
                 @if(Auth::check() == 1)
@@ -15,7 +15,7 @@
                 @if(Auth::check() != 1)
                     <a class="dropdown-item cuentasMenuHeaderMobile" href="/login#loginIdWeb">ENTRAR</a>
                 @else
-                    <a class="dropdown-item cuentasMenuHeaderMobile" href="/donations">DONACIONES</a>
+                    <a class="dropdown-item cuentasMenuHeaderMobile" href="/donations#donationsIdWeb">DONACIONES</a>
                 @endif
 
                 @if(Auth::check() != 1)
@@ -40,7 +40,7 @@
 
 <header class="headerNormal">
     <div class="headerNormalDivUno">
-        <img src="{{ asset('images/logo.png') }}" alt="logo">
+       <a href="/index"><img src="{{ asset('images/logo.png') }}" alt="logo"></a>
     </div>
     <div class="headerNormalDivDos">
         <ul class="headerNormalUl">
@@ -64,7 +64,7 @@
                 </div>
             @else
                 <div class="divHeaderNormalLi">
-                    <li class="headerNormalLi"><a href="/#" style="color: white;">DONACIONES</a></li>
+                    <li class="headerNormalLi"><a href="/donations#donationsIdWeb" style="color: white;">DONACIONES</a></li>
                 </div>
             @endif
 

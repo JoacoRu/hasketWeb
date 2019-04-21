@@ -21,7 +21,7 @@ Route::get('/downloads', 'viewsController@viewDownloads')->middleware('auth');
 Route::get('/recuperar', 'viewsController@viewPass');
 Route::get('/panel', 'CharacterController@listCharacters')->middleware('auth');
 Route::get('/new', 'viewsController@viewNew');
-Route::get('/donations', 'viewsController@viewDonations');
+Route::get('/donations', 'viewsController@viewDonations')->name('donations')->middleware('auth');
 
 
 Auth::routes();
@@ -32,4 +32,5 @@ Route::get('/oneNew/{id}', 'NoticeController@byId');
 Route::post('/panel', 'CharacterController@updatePoints')->middleware('auth');
 Route::post('/recuperar', 'UserController@resetPassword');
 Route::post('/new', 'NoticeController@store');
-Route::post('/paypal', 'PaypalController@payWithPaypal');
+Route::post('/paypal', array('as' => 'addmoney.paypal','uses' => 'PaypalController@postPaymentWithpaypal',));
+Route::get('/paypal', array('as' => 'payment.status','uses' => 'PaypalController@getPaymentStatus',));

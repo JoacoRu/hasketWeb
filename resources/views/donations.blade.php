@@ -22,11 +22,10 @@
         @include('modules.server_info')
         <section class="contentContainer">
             <div class="separator">
-                <article class="userPanelContainer" id="userPanelIdWeb">
+                <article class="donationsContainer" id="donationsIdWeb">
                     <div class="noticiaTitulo">
-                        <h4>Panel</h4>
+                        <h4>Donaciones</h4>
                     </div>
-
                     @if ($message = Session::get('success'))
                         <div class="custom-alerts alert alert-success fade in">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
@@ -42,6 +41,25 @@
                         </div>
                         <?php Session::forget('error');?>
                     @endif
+                    <div class="productsContainer">
+                        <div class="card" style="width: 18rem;" id="cardDonation">
+                            <div class="card-body">
+                                <h5 class="card-title">WCOIN</h5>
+                                <p class="card-text">Con esta moneda vas a poder comprar items en la tienda dentro del juego.</p>
+                                <form action="{!! URL::route('addmoney.paypal') !!}" method="post" id="donations">
+                                    <input type="hidden" name="item" value="vip">
+                                    <select name="amount" id="amount">
+                                        <option value="5">500 WCoins x $5 USD</option>
+                                        <option value="10">1000 WCoins x $10 USD</option>
+                                        <option value="15">1500 WCoins x $15 USD</option>
+                                        <option value="20">2000 WCoins x $20 USD</option>
+                                        <option value="30">5000 WCoins x $30 USD</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary">Comprar</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </article>
             </div>
             @include('modules.aside')

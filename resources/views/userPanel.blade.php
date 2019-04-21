@@ -26,6 +26,7 @@
                     <div class="noticiaTitulo">
                         <h4>Panel</h4>
                     </div>
+
                     <div id="msjError" style="display: none;">
                         <div class="alert alert-danger col-sm-12 col-md-6 col-lg-4 col-xl-4">
                             <strong class="msjErrorContent">

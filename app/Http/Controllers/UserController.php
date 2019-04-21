@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Coin;
+use Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Foundation\Auth\Authenticatable;
@@ -59,7 +61,7 @@ class UserController extends Controller
             'post_code' => $request->country,
             'fpas_ques' => $request->secretQuestion,
             'fpas_answ' => $request->answerSecret,
-            'memb_name' => 'default',
+            'memb_name' => $request->username,
             'sno__numb' => 111111,
             'mail_chek' => 1,
             'bloc_code' => 0,
@@ -131,7 +133,42 @@ class UserController extends Controller
             return redirect('/index');
         } else {
             return view('/passwordChange', compact('errors'));
+        }   
+    }
+
+    public function insertWcoin($amount)
+    {
+        $answer = 0;
+        switch (intval($amount)) {
+            case 5:
+                $answer = 500;
+                break;
+
+            case 10:
+                $answer = 1000;
+                break;
+
+            case 15:
+                $answer = 1500;
+                break;
+
+            case 20:
+                $answer = 2000;
+                break;
+
+            case 30:
+                $answer = 5000;
+                break;
         }
-        
+
+        $userCoin = Coin::where('AccountID', Auth::user()->memb___id)
+                        ->get();
+
+        $finalCredits = intval($userCoin[0]['WCoinC']) +  $answer;
+
+        Coin::where('AccountID', Auth::user()->memb___id)
+                ->update([
+                    'WCoinC' => $finalCredits
+                ]);
     }
 }
