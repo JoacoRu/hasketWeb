@@ -55,4 +55,9 @@ class viewsController extends Controller
     {
         return view('/donations');
     }
+
+    public function viewPanel()
+    {
+        return view('/userPanel');
+    }
 }

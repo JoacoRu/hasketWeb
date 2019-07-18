@@ -45,48 +45,53 @@
                         </div>
                     </div>
 
+                    <!-- <input type="hidden" name="username" value="{{ Auth::user()->memb___id }}"> -->
                     <div class="pjContainer">
-
+                        <!-- @if(isset($characters))
+                            @foreach($characters as $character)
                                 <div class="card" id="card" style="border:none; !important">
-                                    <img src="1" alt="Avatar" style="width:100%">
+                                    <img src="{{$character['Class']}}" alt="Avatar" style="width:100%">
                                     <div class="container-card">
-                                        <h4><b style="color: #721c24;" class="characterUsername">Alfonso</b></h4>
+                                        <h4><b style="color: #721c24;" class="characterUsername">{{$character['Name']}}</b></h4>
                                         <div class="card-info">
-                                            <p>Resets: 2</p>
-                                            <p>Nivel: 400</p>
-                                            <p>Master Level: 10</p>
-                                            <p>Puntos: 5000</p>
-                                            <p>Nivel Pk: Heroe</p>
-                                            <p class="classPj">characterClass(1)</p>
+                                            <p>Resets: {{$character['RESETS']}}</p>
+                                            <p>Nivel: {{$character['cLevel']}}</p>
+                                            <p>Master Level: {{$character['mLevel']}}</p>
+                                            <p>Puntos: {{$character['LevelUpPoint']}}</p>
+                                            <p>Nivel Pk: {{$character['PkLevel']}}</p>
+                                            <p class="classPj">characterClass({{$character['Class']}})</p>
                                         </div>
                                         <div class="card-buttons">
                                             <ul class="ul-card">
                                                 <li>Limpiar Pk</li>
-                                                <li class="reset" lala="resetear('') '">Resetear</li>
-                                                <li class="addPoints" add="puntero('',)">Añadir puntos</li>
-                                                <li class="resetPoints" add="resetPointPuntero('',)">Resetear puntos</li>
+                                                <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
+                                                <li class="addPoints" add="puntero('{{$character['Name']}}', {{$character['Class']}})">Añadir puntos</li>
+                                                <li class="resetPoints" add="resetPointPuntero('{{$character['Name']}}', {{$character['Class']}})">Resetear puntos</li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        @endif -->
+
                                 <div class="card" id="card" style="border:none; !important">
-                                    <img src="1" alt="Avatar" style="width:100%">
+                                    <img src="images/personajes/sm.png" alt="Avatar" style="width:100%">
                                     <div class="container-card">
-                                        <h4><b style="color: #721c24;" class="characterUsername">Alfonso</b></h4>
+                                        <h4><b style="color: #721c24;" class="characterUsername">{{$character['Name']}}</b></h4>
                                         <div class="card-info">
-                                            <p>Resets: 2</p>
-                                            <p>Nivel: 400</p>
-                                            <p>Master Level: 10</p>
-                                            <p>Puntos: 5000</p>
-                                            <p>Nivel Pk: Heroe</p>
-                                            <p class="classPj">characterClass(1)</p>
+                                            <p>Resets: {{$character['RESETS']}}</p>
+                                            <p>Nivel: {{$character['cLevel']}}</p>
+                                            <p>Master Level: {{$character['mLevel']}}</p>
+                                            <p>Puntos: {{$character['LevelUpPoint']}}</p>
+                                            <p>Nivel Pk: {{$character['PkLevel']}}</p>
+                                            <p class="classPj">characterClass({{$character['Class']}})</p>
                                         </div>
                                         <div class="card-buttons">
                                             <ul class="ul-card">
                                                 <li>Limpiar Pk</li>
-                                                <li class="reset" lala="resetear('') '">Resetear</li>
-                                                <li class="addPoints" add="puntero('',)">Añadir puntos</li>
-                                                <li class="resetPoints" add="resetPointPuntero('',)">Resetear puntos</li>
+                                                <li class="reset" lala="resetear('{{$character['Name']}}') '">Resetear</li>
+                                                <li class="addPoints" add="puntero('{{$character['Name']}}', {{$character['Class']}})">Añadir puntos</li>
+                                                <li class="resetPoints" add="resetPointPuntero('{{$character['Name']}}', {{$character['Class']}})">Resetear puntos</li>
                                             </ul>
                                         </div>
                                     </div>

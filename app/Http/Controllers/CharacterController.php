@@ -9,12 +9,12 @@ use App\Character;
 
 class CharacterController extends Controller
 {
-    public function listCharacters()
+    /* public function listCharacters()
     {
         $username = Auth::user()->memb___id;
         $characters = Character::select('AccountID', 'Name', 'cLevel', 'LevelUpPoint', 'Class', 'Experience', 'Strength', 'Dexterity', 'Vitality', 'Energy', 'Money', 'PkCount', 'PkLevel', 'PkTime', 'RESETS', 'Married', 'MarryName', 'WinDuels', 'LoseDuels')->where('AccountID', $username)->get();
         return view('userPanel', compact('characters'));
-    }
+    } */
     
     public function updatePoints(Request $request)
     {
